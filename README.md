@@ -1,5 +1,5 @@
 # Popperian
-Popperian minning agent
+Popperian mining agent
 
   https://youtu.be/QxTsJjzxkP0
 
