@@ -12,7 +12,7 @@ public class trainingNeuralNetworkExample
 
 //INTRODUCTORY NEURAL NETWORK EXAMPLE:
 //=====================================
-	public static void main( String[] args )
+	public static void main(String[] args)
 	{
 		final EasyLearnAndPredict FNeural = new EasyLearnAndPredict(
 			internalStateSize, stateSize,
@@ -30,9 +30,9 @@ public class trainingNeuralNetworkExample
 		int error_cnt = 0;
 		for( int I = 1; I <= 10000; I++ ) {
 			// predicts the next state from aInternalState, aCurrentState into aPredictedState
-			FNeural.Predict( aInternalState, aCurrentState, aPredictedState );
+			FNeural.Predict(aInternalState, aCurrentState, aPredictedState);
 			// INCLUDE YOUR CODE HERE: some code here that updates the next state.
-			State.deref(aCurrentState); aCurrentState = aCurrentState.setAction( (byte)((aCurrentState.state(0) + 5) % 10) );
+			State.deref(aCurrentState); aCurrentState = aCurrentState.setAction((byte)((aCurrentState.state(0) + 5) % 10));
 			// INCLUDE YOUR CODE HERE: some code here that compares aPredictedState with new next state.
 			if( !aCurrentState.eq(aPredictedState.states) ) {
 				// INCLUDE YOUR CODE HERE: if predicted and next states don't match,

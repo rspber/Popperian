@@ -6,13 +6,12 @@ import java.util.List;
 import org.jpss.cai.libs.State;
 import org.jpss.cai.libs.TABHash;
 
-// part of Ufway44
-
-//
-//This class contains a list of states. FKeyCache is used to speed up by keeping a
-//kind of hash of all included states. An ordered list of actions and states is
-//actually a PLAN.
-//
+/*
+  part of Ufway44
+  This class contains a list of states. FKeyCache is used to speed up by keeping a
+  kind of hash of all included states. An ordered list of actions and states is
+  actually a PLAN.
+*/
 public class ActionStateList
 {
 	private final TABHash keyCache; // 1 in a given position might mean that the entry is there.
@@ -22,7 +21,7 @@ public class ActionStateList
 //	private final int FStateLength;
 	
 //	TVisitedStatesCopy
-	public void receivePlan( final ActionStateList P )
+	public void receivePlan(final ActionStateList P)
 	{
 		keyCache.clear();
 		//copy hash table.
@@ -46,29 +45,29 @@ public class ActionStateList
 	}
 
 	// Returns action of position i.
-	public byte action( final int i )
+	public byte action(final int i)
 	{
 		return actions[i];
 	}
 
 	//set action at position i.
-	public void setAction( final int i, final byte action )
+	public void setAction(final int i, final byte action)
 	{
 		actions[i] = action;
 	}
 
-	public State state( final int i )
+	public State state(final int i)
 	{
 		return states.get(i);
 	}
 
-	public void setState( final int i, final State st )
+	public void setState(final int i, final State st)
 	{
 		states.get(i).deref();
 		states.set(i, st.clone());
 	}
 
-	public ActionStateList( final int StateLength )
+	public ActionStateList(final int StateLength)
 	{
 		keyCache = new TABHash();
 		actions = new byte[Ufway44.MaxStates];
@@ -112,7 +111,7 @@ public class ActionStateList
 		keyCache.include(ST);
 		if( states.size() < Ufway44.MaxStates ) {
 			actions[states.size()] = Action;
-			states.add( ST.clone() );
+			states.add(ST.clone());
 		} else {
 			throw new RuntimeException("TVisitedStates: Limit states exceesed: " + states.size() + " ");
 		}
@@ -127,7 +126,7 @@ public class ActionStateList
 		if( states.size() == Ufway44.MaxStates ) {
 			removeFirst();
 		}
-		include( ST, Action );
+		include(ST, Action );
 	}
 
 	// This function returns -1 when the parameter doesn't exist; else returns position ...
@@ -147,7 +146,7 @@ public class ActionStateList
 	private int indexOf(final State ST)
 	{
 		for( int i = states.size(); --i >= 0; ) {
-			if( ST.eq( states.get(i) )) {
+			if( ST.eq(states.get(i))) {
 				return i;
 			}
 		}
@@ -181,14 +180,14 @@ public class ActionStateList
 	// Removes some duplicate states.
 	public boolean removeCicles()
 	{
-//System.out.println("Removing"); 
+		//System.out.println("Removing"); 
 		for( int j = states.size(); --j >= 1; ) {
 			final State bj = states.get(j);
 			for( int i = 0; i < j; i++ ) {
 				final State bi = states.get(i);
 				if( bj.eq(bi) ) {
 					removeSubList(i + 1, j);
-//System.out.println("removed:" + ListStates.size() + "  "); 
+					//System.out.println("removed:" + ListStates.size() + "  "); 
 					return true;
 				}
 			}

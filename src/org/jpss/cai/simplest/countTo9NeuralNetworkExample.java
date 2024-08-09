@@ -13,7 +13,7 @@ public class countTo9NeuralNetworkExample
 //SIMPLEST NEURAL NETWORK EXAMPLE:
 //=====================================
 // In this example, the NN will learn how to count from 0 to 9 and restart.
-	public static void main( String[] args )
+	public static void main(String[] args)
 	{
 		final EasyLearnAndPredict FNeural = new EasyLearnAndPredict(
 			internalStateSize, stateSize,
@@ -34,7 +34,7 @@ public class countTo9NeuralNetworkExample
 			// predicts the next state from aInternalState, aCurrentState into aPredictedState
 			FNeural.Predict(aInternalState, aCurrentState, aPredictedState);
 			// INCLUDE YOUR CODE HERE: some code here that updates the next state.
-			State.deref(aCurrentState); aCurrentState = aCurrentState.setAction( (byte)((aCurrentState.state(0) + 1) % 10) );
+			State.deref(aCurrentState); aCurrentState = aCurrentState.setAction((byte)((aCurrentState.state(0) + 1) % 10));
 			// INCLUDE YOUR CODE HERE: some code here that compares aPredictedState with new next state.
 			if( !aCurrentState.eq(aPredictedState.states) ) {
 				// INCLUDE YOUR CODE HERE: if predicted and next states don't match,

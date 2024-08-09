@@ -5,17 +5,18 @@ import java.util.Arrays;
 import org.jpss.cai.libs.State;
 import org.jpss.cai.util.MM;
 
-//
-//An agent has a composition of plans. These plans can Mix together so the composite
-//plan is better than the individual plans. As an example, plan A can be better in its
-//first half while plan B is better in its second half. But the composition A+B makes
-//a better plan than each individual plan.
-//
+/*
+  An agent has a composition of plans. These plans can Mix together so the composite
+  plan is better than the individual plans. As an example, plan A can be better in its
+  first half while plan B is better in its second half. But the composition A+B makes
+  a better plan than each individual plan.
+*/
 public abstract class CompositePlan
 {
-//List of plans.
+	// List of plans.
 	public final Plan[] Plans;
-//Most recently used plan (plan from where the last action has been choosen).
+
+	// Most recently used plan (plan from where the last action has been choosen).
 	public Plan LastUsedPlan;
 
 	public int plansFound() {
@@ -46,7 +47,7 @@ public abstract class CompositePlan
 			// evaluates a  plan.
 			// the bigger the number, the worse is.
 			final double next = !P.Found ? 100000 : 1 - P.FPlan.numStates();
-			if( (next > worst) || ((next == worst) && (MM.random( 2) == 0)) ) {
+			if( (next > worst) || ((next == worst) && (MM.random(2) == 0)) ) {
 				worst = next;
 				WorstPlan = P;
 			}
@@ -59,7 +60,7 @@ public abstract class CompositePlan
 	{
 		result.LastAct = false;
 
-		Plan BestPlan = ChooseBestPlanBasedOnNextStep( ST, result );
+		Plan BestPlan = ChooseBestPlanBasedOnNextStep(ST, result );
 
 		for( int i = 0; i < Plans.length; i++ ) {
 //			final int AcI = BP.GetNextIndex(ST);
@@ -89,7 +90,7 @@ public abstract class CompositePlan
 				final int AcI = P.GetNextStepIndex(ST);
 				result.index[i] = AcI;
 				final double curr = AcI == -1 ? 100000 : P.FPlan.numStates() - AcI;
-				if( (curr < best) || ((curr == best) && (MM.random( 2) == 0)) ) {
+				if( (curr < best) || ((curr == best) && (MM.random(2) == 0)) ) {
 					best = curr;
 					BestPlan = P;
 				}

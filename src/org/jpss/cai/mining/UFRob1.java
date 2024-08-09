@@ -26,15 +26,15 @@ public class UFRob1
 
 
 		// DefineInitialPositions
-		private Position CreateMine( final int Charge )
+		private Position CreateMine(final int Charge)
 		{
 			final double PosBase = FWorldCenter + 1;
 			final double DistMin = FWorldLength * 0.4;
-			int DX = (int)MM.random( DistMin);
+			int DX = (int)MM.random(DistMin);
 			int DY = (int)Math.round(DistMin) - DX;
-			DX = DX * (MM.random( 2) * 2 - 1);	// GetOneOrMinusOne;
-			DY = DY * (MM.random( 2) * 2 - 1);	// GetOneOrMinusOne;
-			return new Position( PosBase + DX, PosBase + DY, Charge );
+			DX = DX * (MM.random(2) * 2 - 1);	// GetOneOrMinusOne;
+			DY = DY * (MM.random(2) * 2 - 1);	// GetOneOrMinusOne;
+			return new Position(PosBase + DX, PosBase + DY, Charge);
 		}
 	
 	private static final int[] DISPX = new int[] {1, 1, 1, 0, -1, -1, -1, 0};
@@ -43,14 +43,14 @@ public class UFRob1
 	Position[] DefineInitialPositions()
 	{
 		final Position[] InitPos = new Position[ URobMin2.csMaxAgents ];
-		InitPos[0] = new Position( FWorldCenter, FWorldCenter, 0 );	// URobMin2.csBaseIdx = 0
+		InitPos[0] = new Position(FWorldCenter, FWorldCenter, 0);	// URobMin2.csBaseIdx = 0
 		int i = 0;
 		while( ++i < URobMin2.csMaxAgents - URobMin2.csRunners ) {	// URobMin2.csMiningIdx = 1
-			InitPos[i] = CreateMine( URobMin2.csAgentCharge );
+			InitPos[i] = CreateMine(URobMin2.csAgentCharge);
 		}
 		int j = 0;
 		while( i < URobMin2.csMaxAgents ) {
-			InitPos[i] = new Position( FWorldCenter + DISPX[j], FWorldCenter + DISPY[j], 0 );
+			InitPos[i] = new Position(FWorldCenter + DISPX[j], FWorldCenter + DISPY[j], 0);
 			++i;
 			++j;
 		}
@@ -73,7 +73,7 @@ public class UFRob1
 /*
 		FShouldStop = false;
 		while( !FShouldStop ) {
-			FMiningWorld.RandomMove(MM.random( 5));
+			FMiningWorld.RandomMove(MM.random(5));
 			Mostra();
 		}
 */
@@ -87,11 +87,11 @@ public class UFRob1
 		}
 	}
 
-	UFRob1( final Forms forms )
+	UFRob1(final Forms forms)
 	{
 		this.forms = forms;
 
-		FMiningWorld = new ArtificialMiningWorld( UFRob1.FWorldLength );
+		FMiningWorld = new ArtificialMiningWorld(UFRob1.FWorldLength);
 //		FMiningWorld.DefineWorldLength();
 //		FMiningWorld.DefineSuperposition(false);	//true
 //		FMiningWorld.DefineLinkedBorder(false);
@@ -106,7 +106,7 @@ public class UFRob1
 			true //FUseBelief
 		);
 
-		popperian = new Popperian( FMiningWorld, LearnAndPredict, forms );
+		popperian = new Popperian(FMiningWorld, LearnAndPredict, forms);
 //		Speed = 1;
 	}
 
@@ -121,7 +121,7 @@ public class UFRob1
 		forms.setChMostra(false);
 	}
 
-	private boolean ok1( final int i )
+	private boolean ok1(final int i)
 	{
 		if( i % 200 == 0 ) {
 			final double speed = forms.Speed();
@@ -138,10 +138,10 @@ public class UFRob1
 		return false;
 	}
 
-	private void RunLearning( final Position[] InitPos )
+	private void RunLearning(final Position[] InitPos)
 	{
 		final int Runs = 1000000;	// or at least 20 plans found
-		final int TotalCharge = FMiningWorld.ApplyInitialPositions( InitPos );
+		final int TotalCharge = FMiningWorld.ApplyInitialPositions(InitPos);
 		popperian.Clear();
 		int i = 0;
 		while( !FShouldStop && FMiningWorld.NMoves < Runs) {
@@ -159,7 +159,7 @@ public class UFRob1
 		}
 	}
 
-	private boolean ok2( final int i )
+	private boolean ok2(final int i)
 	{
 		final double speed = forms.Speed();
 		if( speed < 100 ) {
@@ -179,10 +179,10 @@ public class UFRob1
 		return i % 200 == 0;
 	}
 
-	private double RunOneSimulation( final Position[] InitPos )
+	private double RunOneSimulation(final Position[] InitPos)
 	{
 		final int Runs = forms.edciclos();
-		final int TotalCharge = FMiningWorld.ApplyInitialPositions( InitPos );
+		final int TotalCharge = FMiningWorld.ApplyInitialPositions(InitPos);
 		popperian.Clear();
 		int i = 0;
 		while( !FShouldStop && FMiningWorld.NMoves < Runs ) {
@@ -212,12 +212,12 @@ public class UFRob1
 			FShouldStop = false;
 			final Position[] InitPos = DefineInitialPositions();	// initial positions
 			forms.setLearningMode();
-			RunLearning( InitPos );		// 1 000 000
+			RunLearning(InitPos);		// 1 000 000
 			forms.setMiningMode();
 			forms.ShowFormOpt();
 			forms.ShowFormViewPlans();
 			while( !FShouldStop ) {
-				RunOneSimulation( InitPos );	// 2 000 000
+				RunOneSimulation(InitPos);	// 2 000 000
 			}
 	//		forms.Form1.setDisable(false);
 		}

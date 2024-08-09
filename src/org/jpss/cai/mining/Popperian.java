@@ -8,9 +8,9 @@ public class Popperian extends MiningAgent {
 
 	final ArtificialMiningWorld FMiningWorld;
 
-	public Popperian( final ArtificialMiningWorld FMiningWorld, final EasyLearnAndPredict LearnAndPredict, final Forms forms )
+	public Popperian(final ArtificialMiningWorld FMiningWorld, final EasyLearnAndPredict LearnAndPredict, final Forms forms)
 	{
-		super( LearnAndPredict, forms );
+		super(LearnAndPredict, forms);
 		this.FMiningWorld = FMiningWorld;
 	}
 
@@ -23,8 +23,8 @@ public class Popperian extends MiningAgent {
 		bb[1] = (byte)Math.round(RUNNER.x);
 		bb[2] = (byte)Math.round(RUNNER.y);
 		bb[3] = (byte)RUNNER.Charge;
-		bb[4] = FMiningWorld.BASE().Encounter( RUNNER ) ? (byte)1 : 0;
-		bb[5] = FMiningWorld.EncounterMINE( RUNNER ) ? (byte)1 : 0;
+		bb[4] = FMiningWorld.BASE().Encounter(RUNNER) ? (byte)1 : 0;
+		bb[5] = FMiningWorld.EncounterMINE(RUNNER) ? (byte)1 : 0;
 		bb[6] = (byte)(UFRob1.FWorldCenter + 1);	// pos base
 		bb[7] = (byte)0;
 		return new State(bb);
@@ -43,15 +43,15 @@ public class Popperian extends MiningAgent {
 		final byte localAction = ChooseActionAndPlan(localStates);
 		PreviousAction = localAction;
 
-		localStates = localStates.cloneAndSetAction( (byte)(localAction + 1));
+		localStates = localStates.cloneAndSetAction((byte)(localAction + 1));
 
 		State.deref(predictedStates.states); predictedStates.states = new State();
-		LearnAndPredict.Predict( localStates, localStates, predictedStates );
+		LearnAndPredict.Predict(localStates, localStates, predictedStates );
 
 		if( localAction !=  URobMin2.csHold ) {
-			FMiningWorld.move( FMiningWorld.RUNNER(), localAction );
+			FMiningWorld.move(FMiningWorld.RUNNER(), localAction );
 		}
-		State.deref(PreviousStates); PreviousStates = localStates.cloneAndSetAction( (byte)0);
+		State.deref(PreviousStates); PreviousStates = localStates.cloneAndSetAction((byte)0);
 
 		return r;
 	}

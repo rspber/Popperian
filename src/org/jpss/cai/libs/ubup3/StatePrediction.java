@@ -11,12 +11,12 @@ import org.jpss.cai.libs.uabfun.Operation;
 import org.jpss.cai.libs.uabfun.RunOperation;
 import org.jpss.cai.util.MM;
 
-// part of UBUP3
+/*
+  part of UBUP3
 
-// **************** StatePrediction ***************** 
-//StatePrediction
-//This class is one of the most important classes in all project.
-//This class is capable of predicting the next state of an array of bytes.
+  This class is one of the most important classes in all project.
+  This class is capable of predicting the next state of an array of bytes.
+*/
 public class StatePrediction
 {
 	public final CreateOperationSettings FCS;
@@ -28,7 +28,7 @@ public class StatePrediction
 	protected final int NumOfNeurons;
 
 	// MAX NEURONS ON SECOND (OPERATION) NEURAL NETWORK LAYER
-//	private int FMaxOperationNeuronCount;
+	//	private int FMaxOperationNeuronCount;
 
 	// true = creates operation/neurons for all entries - 0 or non 0.
 	private final boolean fZerosIncluded;
@@ -36,19 +36,19 @@ public class StatePrediction
 	private int fCycle;
 	private boolean fFastPrediction;
 
-	private final int[] SelectedIndexes;	//best prediction indexes
-	private int NumberOfSelectedIndexes;	//number of best prediction indexes
-	private final int NumMinSelectedIndexes;	//minimun usage number of best selected indexes
+	private final int[] SelectedIndexes;	// best prediction indexes
+	private int NumberOfSelectedIndexes;	// number of best prediction indexes
+	private final int NumMinSelectedIndexes;	// minimun usage number of best selected indexes
 
 	public State fPredictedState;
 
-//
-//  This function creates the neural network that will later be used for prediction.
-//  * The "number of searches" means the number of random attempts will be made in a given point in time.
-//  * "number of searches" increases CPU time while "relation table size" increases memory.
-//  * "zeros included" makes the system to use "zero" as an imput parameter. It makes the prediction
-//    slower but more capable.
-// 
+	/*
+	  This function creates the neural network that will later be used for prediction.
+	  * The "number of searches" means the number of random attempts will be made in a given point in time.
+	  * "number of searches" increases CPU time while "relation table size" increases memory.
+	  * "zeros included" makes the system to use "zero" as an imput parameter. It makes the prediction
+	    slower but more capable.
+	*/
 	public StatePrediction(
 			final boolean pIncludeZeros,	// false = creates operation/neurons for non zero entries only.
 			final int pNumOfNeurons,		// number of combinatorial NEURONS. If you don't know how many to crete, give 200.
@@ -63,7 +63,7 @@ public class StatePrediction
 		FNN = new ArrayList<NeuronGroup>();
 		this.FCS = FCS;
 		for( int i = 0; i < pNumOfNeurons; ++i ) {
-			FNN.add( new NeuronGroup() );
+			FNN.add(new NeuronGroup());
 		}
 		NumOfNeurons = pNumOfNeurons;
 		NumberOfSelectedIndexes = 0;
@@ -74,12 +74,12 @@ public class StatePrediction
 		fFastPrediction = false;
 	}
 
-	public NeuronGroup neuron( final int pos )
+	public NeuronGroup neuron(final int pos)
 	{
 		return FNN.get(pos);
 	}
 
-	public void setNeuron( final int pos, final NeuronGroup ng )
+	public void setNeuron(final int pos, final NeuronGroup ng)
 	{
 		FNN.set(pos, ng);
 	}
@@ -129,10 +129,10 @@ public class StatePrediction
 		// GetWorstNeuronIndex
 		private NeuronGroup GetWorstNeuron(final int searchedNeuronsCnt)
 		{
-			int posWorst = MM.random( NumOfNeurons );
+			int posWorst = MM.random(NumOfNeurons );
 			double worst = neuron(posWorst).GetNeuronGroupScore();
 			for( int i = 1; i <= searchedNeuronsCnt; i++ ) {
-				final int neuronPos = MM.random( NumOfNeurons );
+				final int neuronPos = MM.random(NumOfNeurons );
 				final double actual = neuron(neuronPos).GetNeuronGroupScore();
 				if( actual < worst ) {
 					worst = actual;
@@ -144,10 +144,10 @@ public class StatePrediction
 
 	// CreateNewNeuronsOnError.
 		// GetBestNeuronIndex
-		private NeuronGroup GetBestNeuron( final int Num, final CreateValidOperations ABF )
+		private NeuronGroup GetBestNeuron(final int Num, final CreateValidOperations ABF)
 		{
 			for( int i = 1; i <= Num; i++ ) {
-				final int neuronPos = MM.random( NumOfNeurons );
+				final int neuronPos = MM.random(NumOfNeurons );
 				final NeuronGroup ng = neuron(neuronPos);
 				// EvalNeuronGroup
 				if( ABF.TestTests(ng.TestNeuronLayer) > 0 ) {
@@ -162,7 +162,7 @@ public class StatePrediction
 		}
 
 	// This function creates new relations given a prediction error.
-	public void CreateNewNeuronsOnError( final State PActions, final State PCurrentStates, final State PNextStates )
+	public void CreateNewNeuronsOnError(final State PActions, final State PCurrentStates, final State PNextStates)
 	{
 		final NeuronGroup worst = GetWorstNeuron(fNumSearch);
 		worst.RemoveOperations();
@@ -175,25 +175,25 @@ public class StatePrediction
 
 		// select a predicted byte that was wrongly predicted.
 		worst.PredictionPos = PredictedBytePos;
-		worst.TestNeuronLayer.TestBasePosition = FCS.Bidimensional ? NewOp.GetFeatureCenter2D() : PredictedBytePos;
-		if( MM.random( 100) < 5 && fGeneralize ) {
+		worst.TestNeuronLayer.testBasePosition = FCS.Bidimensional ? NewOp.GetFeatureCenter2D() : PredictedBytePos;
+		if( MM.random(100) < 5 && fGeneralize ) {
 			final NeuronGroup best = GetBestNeuron(fNumSearch, NewOp);
 			if( best != null && best != worst ) {
 				// should copy the neuron ?
 				worst.copyFrom(best);
-				worst.TestNeuronLayer.RandomDeleteOperation();
+				worst.TestNeuronLayer.randomDeleteOperation();
 				return;
 			}
 		}
 
 		NewOp.CreateOperations(false, fZerosIncluded/*, pred*/);	//no tests
 		//prediction errors
-		if( NewOp.FOperationsCount() == 0 ) {
+		if( NewOp.operationsCount() == 0 ) {
 			System.out.println(" ERROR: relation creation has failed.");
 		} else {
 			worst.RemoveOperations();
 			worst.OperationNeuronLayer = NewOp.GetRandomOper();
-			final int NumV = FCS.MinTests + MM.random( FCS.MaxTests - FCS.MinTests) + 1;
+			final int NumV = FCS.MinTests + MM.random(FCS.MaxTests - FCS.MinTests) + 1;
 			NewOp.CreateOperations(true, fZerosIncluded/*, pred*/);	//with tests
 			//prediction errors
 			for( int IV = 0; IV < NumV; IV++ ) {
@@ -201,10 +201,10 @@ public class StatePrediction
 				if( Oper.OpCode == 0 ) {
 					break;
 				}
-				worst.TestNeuronLayer.AddTest(Oper);
+				worst.TestNeuronLayer.addTest(Oper);
 			}
 			final int N = worst.TestNeuronLayer.N();
-			worst.TestNeuronLayer.TestThreshold = FCS.PartialTestEval ? MM.random(N) + 1 : N;
+			worst.TestNeuronLayer.testThreshold = FCS.PartialTestEval ? MM.random(N) + 1 : N;
 		}
 	}
 
@@ -266,12 +266,12 @@ public class StatePrediction
 	// predicted state in the output array (PNextStates), the probability is given
 	// by pRelationProbability. The relation index used when predicting is stored in
 	// pVictoryIndex.
-	public void Prediction( final State pActions, final State pCurrentState, final /*var*/ PState pNextStates,
+	public void Prediction(final State pActions, final State pCurrentState, final /*var*/ PState pNextStates,
 		final /*var*/ double[] pRelationProbability,
 		final /*var*/ int[] pVictoryIndex) // index of victorious neuron 
 	{
 		State states = pCurrentState.clone();	// LOOK
-		final RunOperation ABF = new RunOperation( FCS, pActions, pCurrentState, pNextStates.states);
+		final RunOperation ABF = new RunOperation(FCS, pActions, pCurrentState, pNextStates.states);
 		for( int i = 0; i < pRelationProbability.length; i++ ) {
 			pRelationProbability[i] = 0;
 			pVictoryIndex[i] = -1;
@@ -283,8 +283,8 @@ public class StatePrediction
 			final double Probability = ng.predictionProbability1(fUseBelief);
 			final int PredictionPos = ng.PredictionPos;
 			if( Probability > pRelationProbability[PredictionPos] && ng.CorrectNeuronPredictionCnt > FCS.MinSampleForPrediction ) {
-				if( ABF.TestTests( ng.TestNeuronLayer ) > 0 ) {
-					final byte NextState = (byte)ABF.getNextState( ng.OperationNeuronLayer, PredictionPos );
+				if( ABF.TestTests(ng.TestNeuronLayer ) > 0 ) {
+					final byte NextState = (byte)ABF.getNextState(ng.OperationNeuronLayer, PredictionPos);
 					State.deref(states); states = states.setState(PredictionPos, NextState);
 					pRelationProbability[PredictionPos] = Probability;
 					pVictoryIndex[PredictionPos] = i;
@@ -296,13 +296,13 @@ public class StatePrediction
 
 	// This function is similar to Prediction but doesn't touch "next states" array.
 	// This function calculates the probability of each next state but doesn't calculate the state.
-	private void PredictionProbability( final State pActions, final State pCurrentState, final PState pNextStates,
+	private void PredictionProbability(final State pActions, final State pCurrentState, final PState pNextStates,
 		// efeitos a serem medidos
 		// output
 		final /*var*/ double[] pRelationProbability,	//probabilidades	//probabilities
 		final /*var*/ int[] pVictoryIndex)	//posicao do vitorioso	//victory position
 	{
-		final RunOperation ABF = new RunOperation( FCS, pActions, pCurrentState, pNextStates.states);
+		final RunOperation ABF = new RunOperation(FCS, pActions, pCurrentState, pNextStates.states);
 		for( int i = 0; i < pRelationProbability.length; i++ ) {
 			pRelationProbability[i] = 0;
 			pVictoryIndex[i] = -1;
@@ -312,7 +312,7 @@ public class StatePrediction
 			final int PredictionPosition = ng.PredictionPos;
 			if( ng.Filled() ) {
 				if( ABF.Test(ng.OperationNeuronLayer, PredictionPosition) != 0 ) {
-					if( ABF.TestTests( ng.TestNeuronLayer ) > 0 ) {
+					if( ABF.TestTests(ng.TestNeuronLayer) > 0 ) {
 						final double Probability = ng.predictionProbability2(fUseBelief);
 						if( Probability > pRelationProbability[PredictionPosition] ) {
 							pRelationProbability[PredictionPosition] = Probability;
@@ -357,7 +357,7 @@ public class StatePrediction
 				if( i > result ) {
 					neuron(result).copyFrom(ng);
 //TODO
-					ng.TestNeuronLayer.RemoveOperations();
+					ng.TestNeuronLayer.removeOperations();
 				}
 				result++;
 			}

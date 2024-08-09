@@ -27,12 +27,12 @@ class T2DArrayOfExtended {
 	
 	final List<double[]> list = new ArrayList<>();
 	
-	double[] get( final int i )
+	double[] get(final int i)
 	{
 		return list.get(i);
 	}
 
-	double get( final int i, final int j )
+	double get(final int i, final int j)
 	{
 		return list.get(i)[j];
 	}
@@ -42,7 +42,7 @@ class T2DArrayOfExtended {
 		return list.size();
 	}
 
-	void add( final double[] li )
+	void add(final double[] li)
 	{
 		list.add(li);
 	}
@@ -118,7 +118,7 @@ public class UVect
 // Load2DArrOnStringGrid
 	public static void AddRowTo2DArr(final T2DArrayOfExtended x, final double[] y)
 	{
-		x.add( CarregaVetor( new double[y.length], y) );
+		x.add(CarregaVetor(new double[y.length], y));
 	}
 
 // x : destino 
@@ -171,7 +171,7 @@ public class UVect
 		double r = 0;
 
 		for( int i = 0; i < x.length; i++ ) {
-			r += MM.sqr( x[i] - y[i] );
+			r += MM.sqr(x[i] - y[i]);
 		}
 		return Math.sqrt(r);
 	}

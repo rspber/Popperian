@@ -59,12 +59,12 @@ public class State {
 		this(UFRob1.csStateByteLength);
 	}
 
-	public State( final int length )
+	public State(final int length)
 	{
 		b_ = new byte[length];
 	}
 
-	public State( final byte[] b )
+	public State(final byte[] b)
 	{
 		b_ = new byte[b.length];
 		System.arraycopy(b, 0, b_, 0, b.length);
@@ -75,14 +75,14 @@ public class State {
 		return b_.length;
 	}
 
-	public byte state( final int i )
+	public byte state(final int i)
 	{
 		return b_[i];
 	}
 
-	public void getBytes( final byte[] b )
+	public void getBytes(final byte[] b)
 	{
-		System.arraycopy( b_, 0, b, 0, b_.length < b.length ? b_.length : b.length );
+		System.arraycopy(b_, 0, b, 0, b_.length < b.length ? b_.length : b.length);
 	}
 
 	public int x()
@@ -110,7 +110,7 @@ public class State {
 		return b_[ 5 ] != 0;
 	}
 
-	public State setState( final int i, final byte v )
+	public State setState(final int i, final byte v)
 	{
 		if( refcnt == 0 ) {
 			b_[i] = v;
@@ -125,27 +125,27 @@ public class State {
 		}
 	}
 
-	public State setAction( final byte v )
+	public State setAction(final byte v)
 	{
 		return setState(0, v);
 	}
 
-	public State cloneAndSetState( final int i, final byte v )
+	public State cloneAndSetState(final int i, final byte v)
 	{
 		final State st = new State(b_);
 		st.b_[i] = v;
 		return st;
 	}
 
-	public State cloneAndSetAction( final byte v )
+	public State cloneAndSetAction(final byte v)
 	{
 		return cloneAndSetState(0, v);
 	}
 
-	public boolean eq( final State st )
+	public boolean eq(final State st)
 	{
-		return st.TABHashKey() == TABHashKey() && Arrays.equals( st.b_, b_ );
-//		return Arrays.equals( st.b_, b_ );
+		return st.TABHashKey() == TABHashKey() && Arrays.equals(st.b_, b_);
+//		return Arrays.equals(st.b_, b_);
 	}
 
 	public String toString()
@@ -154,17 +154,17 @@ public class State {
 //		return UAB.ABToString(b_);
 	}
 
-	public int countDif( final State st )
+	public int countDif(final State st)
 	{
-		return UAB.ABCountDif( b_, st.b_ );
+		return UAB.ABCountDif(b_, st.b_);
 	}
 	
-	public int randomGetNext1( final State st )
+	public int randomGetNext1(final State st)
 	{
 		return UAB.ABRandomGetNext1(st.b_, b_);
 	}
 
-	public static void deref( final State st )
+	public static void deref(final State st)
 	{
 		if( st != null ) {
 			if( st.refcnt > 0 ) {

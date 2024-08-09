@@ -5,12 +5,14 @@ import org.jpss.cai.libs.State;
 import org.jpss.cai.libs.uabfun.UABFUN;
 import org.jpss.cai.libs.ucashst2.CacheMem;
 
-// part of UBUP3
+/*
+  part of UBUP3
 
-//This class is an AMAZING class. This class is capable of learning and predicting
-//next states with easy to use methods. Use this class on your projects
-public class EasyLearnAndPredict extends Classifier
-{
+  This class is an AMAZING class. This class is capable of learning and predicting
+  next states with easy to use methods. Use this class on your projects
+*/
+public class EasyLearnAndPredict extends Classifier {
+
 	private State fActions, fCurrentState;
 	private final double[] fRelationProbability;
 	private final int[] fVictoryIndex;
@@ -22,11 +24,11 @@ public class EasyLearnAndPredict extends Classifier
 
 	// Defines size of neural network, size of input, size of output and flags.
 	public EasyLearnAndPredict(
-		final int actionByteLen,		//action array size in bytes
-		final int stateByteLen,		//state array size in bytes
+		final int actionByteLen,	// action array size in bytes
+		final int stateByteLen,		// state array size in bytes
 		final boolean includeZeros,	// false = creates operation/neurons for non zero entries only.
 		final int numOfNeurons,		// number of combinatorial NEURONS. If you don't know how many to crete, give 200.
-		final int numOfSearches,		// the higher the number, more computations are used on each step. If you don't know what number to use, give 40.
+		final int numOfSearches,	// the higher the number, more computations are used on each step. If you don't know what number to use, give 40.
 		final boolean useCache,		// replies the same prediction for the same given state. Use false if you aren't sure.
 		final boolean generalize,
 		final boolean useBelief
@@ -74,18 +76,18 @@ public class EasyLearnAndPredict extends Classifier
 	// network can learn how the state changes from time to time.
 	public int newStateFound(final State stateFound)
 	{
-		final int predictionError = fPredictedState.countDif( stateFound );
+		final int predictionError = fPredictedState.countDif(stateFound );
 		// Do we have a cached prediction and was the prediction correct?
 		if( !fCached || predictionError != 0 ) {
 			 // was the prediction wrong?, then forgets the cache and recalculate
-			UpdatePredictionStats( fActions, fCurrentState, stateFound );
+			UpdatePredictionStats(fActions, fCurrentState, stateFound );
 			if( !fCached ) {
-				UpdateNeuronVictories( stateFound/*current*/, fVictoryIndex );
+				UpdateNeuronVictories(stateFound/*current*/, fVictoryIndex );
 			}
 			// compares predicted state with found state.
-			if( fPredictedState.countDif( stateFound) != 0 ) {
+			if( fPredictedState.countDif(stateFound) != 0 ) {
 				for( int j = 1; j <= 1; j++ ) {
-					CreateNewNeuronsOnError( fActions, fCurrentState, stateFound );
+					CreateNewNeuronsOnError(fActions, fCurrentState, stateFound );
 				}
 			}
 		}

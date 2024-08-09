@@ -18,7 +18,7 @@ public class UBIT
 //    TLongByteArray = array[0..1000000000] of byte;
 //    TArrBytePtr = ^TLongByteArray;
 
-	private static int POW2( final int i )
+	private static int POW2(final int i)
 	{
 		return 1 << i;
 	}
@@ -35,7 +35,7 @@ public class UBIT
 	}
 
 // w  <- 1.0 
-	public static byte BARead( final byte[] a, final int P)
+	public static byte BARead(final byte[] a, final int P)
 	{
 		final int BytePos = P / 8;
 		final int BitPos = P % 8;
@@ -65,7 +65,7 @@ public class UBIT
 		return BARead(a, P) != 0;
 	}
 
-	private static byte[] intToByte4( int v )
+	private static byte[] intToByte4(int v)
 	{
 		final byte[] b = new byte[4];
 		for( int i = 0; i < 4; ++i ) {
@@ -75,7 +75,7 @@ public class UBIT
 		return b;
 	}
 
-	private static int byte4ToInt( byte[] b )
+	private static int byte4ToInt(byte[] b)
 	{
 		int v = 0;
 		for( int i = 0; i < 4; ++i ) {
@@ -90,14 +90,14 @@ public class UBIT
 	public static boolean LongintBitTest(final int Data, final int P)
 	{
 		final byte[] a = intToByte4(Data);
-		return BATest( a, P);
+		return BATest(a, P);
 	}
 
 // Flip no Bit P 
 	public static int LongintBitFlip(final int Data, final int P)
 	{
 		final byte[] a = intToByte4(Data);
-		BAFlip( a, P);
+		BAFlip(a, P);
 		return byte4ToInt(a);
 	}
 

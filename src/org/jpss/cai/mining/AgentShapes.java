@@ -25,8 +25,8 @@ public class AgentShapes {
 	};
 
 	static class TBase extends Rectangle {
-		TBase( final int x, final int y, final int w ) {
-			super( 0, 0, w, w );
+		TBase(final int x, final int y, final int w ) {
+			super(0, 0, w, w );
 			setTranslateX(x);
 			setTranslateY(y);
 			setArcWidth(5);
@@ -38,8 +38,8 @@ public class AgentShapes {
 	}
 	
 	static class TAgent extends Rectangle {
-		TAgent( final int x, final int y, final int w, final Color color ) {
-			super( 0, 0, w, w );
+		TAgent(final int x, final int y, final int w, final Color color ) {
+			super(0, 0, w, w );
 			setTranslateX(x);
 			setTranslateY(y);
 			setFill(color);
@@ -47,8 +47,8 @@ public class AgentShapes {
 	}
 
 	static class TRunner extends Ellipse {
-		TRunner( final int x, final int y, final int w ) {
-			super( 0, 0, w, w );
+		TRunner(final int x, final int y, final int w ) {
+			super(0, 0, w, w );
 			setTranslateX(x);
 			setTranslateY(y);
 			setFill(Color.BLUE);

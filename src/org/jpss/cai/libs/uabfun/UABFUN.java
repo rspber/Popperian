@@ -48,7 +48,8 @@ public class UABFUN
 		"div", "mod", "and", "or", "xor", "inj", "not"};
 // this type represents sets of operations
 	// [ValueSetOf] TOperationSet = set of 0 .. csMaxOperations - 1
-	public static boolean inTestOperationSet( final byte i)
+
+	public static boolean inTestOperationSet(final byte i)
 	{
 		switch(i) {
 		case csEqual:
@@ -62,7 +63,8 @@ public class UABFUN
 			return false;
 		}
 	}
-	public static boolean inImediatSet( final byte i)
+
+	public static boolean inImediatSet(final byte i)
 	{
 		switch(i) {
 		case csEqual:
@@ -72,11 +74,13 @@ public class UABFUN
 			return false;
 		}
 	}
-	public static boolean inFirstImediatSet( final byte i)
+
+	public static boolean inFirstImediatSet(final byte i)
 	{
 		return i == csEqual;
 	}
-	public static boolean inStateOperationSet( final byte i)
+
+	public static boolean inStateOperationSet(final byte i)
 	{
 		switch(i) {
 		case csInc:
@@ -96,7 +100,8 @@ public class UABFUN
 			return false;
 		}
 	}
-	public static boolean inBinaryOperationSet( final byte i)
+
+	public static boolean inBinaryOperationSet(final byte i)
 	{
 		switch(i) {
 		case csAdd:
@@ -117,7 +122,8 @@ public class UABFUN
 			return false;
 		}
 	}
-	public static boolean inNoArgSet( final byte i)
+
+	public static boolean inNoArgSet(final byte i)
 	{
 		switch(i) {
 		case csInc:
@@ -129,6 +135,7 @@ public class UABFUN
 			return false;
 		}
 	}
+
 // maximum number of tests on a given rule (tests implies into operation).
 	public final static int csMaxTests = 30;
 

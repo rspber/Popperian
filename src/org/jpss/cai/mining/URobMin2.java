@@ -25,12 +25,14 @@ public class URobMin2
 	public final static int csBaseIdx = 0;
 // mining index
 	public final static int csMiningIdx = 1;
-	public static int csMaxAgents = 5;
 	public final static int csRunners = 1;
+
+	public static int csMaxAgents = csMiningIdx + 3 + csRunners;
+
 	public final static int csAgentCharge = 100;
 
 	// Is this the action that will allow the agent to load/unload (the ultimate target)?
-	public static boolean isTargetAction( final State st, final byte Action )
+	public static boolean isTargetAction(final State st, final byte Action)
 	{
 		if( Action == csLoad ) {
 			if( st.closeToAgent() && st.charge() == 0 ) {

@@ -35,15 +35,15 @@ public class NeuronGroup extends NeuronGroupBase
 
 	public void RemoveOperations()
 	{
-		TestNeuronLayer.RemoveOperations();
+		TestNeuronLayer.removeOperations();
 		OperationNeuronLayer = Operation.Null;
 		Clear();
 	}
 
-	public void copyFrom( final NeuronGroup t )
+	public void copyFrom(final NeuronGroup t )
 	{
 		Clear();
-		TestNeuronLayer.copyFrom( t.TestNeuronLayer );
+		TestNeuronLayer.copyFrom(t.TestNeuronLayer );
 		OperationNeuronLayer = t.OperationNeuronLayer;
 		PredictionPos = t.PredictionPos;
 	}
@@ -54,7 +54,7 @@ public class NeuronGroup extends NeuronGroupBase
 		return this.TestNeuronLayer.N() > 0;
 	}
 
-	public double predictionProbability1( final boolean FUseBelief )
+	public double predictionProbability1(final boolean FUseBelief)
 	{
 		final int TotalCount = WrongNeuronPredictionCnt + CorrectNeuronPredictionCnt;
 		if( TotalCount > 0 && Filled() ) {
@@ -68,7 +68,7 @@ public class NeuronGroup extends NeuronGroupBase
 		}
 	}
 
-	public double predictionProbability2( final boolean FUseBelief )
+	public double predictionProbability2(final boolean FUseBelief)
 	{
 		final int TotalCount = WrongNeuronPredictionCnt + CorrectNeuronPredictionCnt;
 		if( TotalCount > 0 ) {

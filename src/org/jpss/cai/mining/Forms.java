@@ -12,8 +12,8 @@ public class Forms {
 
 	final Form1 form1 = new Form1(this);
 
-	final FormOpt formOpt = FormUtils.form( "Options...", new FormOpt(this) );
-	final FormPlans formPlans = FormUtils.form( "Plans", new FormPlans() );
+	final FormOpt formOpt = FormUtils.form("Options...", new FormOpt(this));
+	final FormPlans formPlans = FormUtils.form("Plans", new FormPlans());
 
 	public void ShowFormOpt()
 	{
@@ -21,8 +21,8 @@ public class Forms {
 			final Stage frame1 = FormUtils.stage(form1); 
 			final Stage fmOpt = FormUtils.stage(formOpt); 
 			fmOpt.show();
-			fmOpt.setY( frame1.getY() );
-			fmOpt.setX( frame1.getX() + frame1.getWidth() + 2 );
+			fmOpt.setY(frame1.getY());
+			fmOpt.setX(frame1.getX() + frame1.getWidth() + 2);
 		});
 	}
 
@@ -32,14 +32,14 @@ public class Forms {
 			final Stage frame1 = FormUtils.stage(form1); 
 			final Stage fmPlans = FormUtils.stage(formPlans); 
 			fmPlans.show();
-			fmPlans.setY( frame1.getY() );
-			fmPlans.setX( frame1.getX() - fmPlans.getWidth() - 10 );
+			fmPlans.setY(frame1.getY());
+			fmPlans.setX(frame1.getX() - fmPlans.getWidth() - 10);
 		});
 	}
 
-	public void setAgents( final Integer mines )
+	public void setAgents(final Integer mines)
 	{
-		URobMin2.csMaxAgents = 2 + mines;
+		URobMin2.csMaxAgents = URobMin2.csMiningIdx + mines + URobMin2.csRunners;
 		form1.initShps();
 		formPlans.initShps();
 	}
@@ -85,11 +85,11 @@ public class Forms {
 		return result;
 	}
 
-	public void ShowPlan( final Plan Plan, final int FWorldLength )
+	public void ShowPlan(final Plan Plan, final int FWorldLength)
 	{
 		if( ChMostra() ) {
 			if( ShowPlan() ) { // ------------- show plan
-				formPlans.ShowPlan( Plan, FWorldLength );
+				formPlans.ShowPlan(Plan, FWorldLength);
 			}
 		}
 	}
@@ -106,7 +106,7 @@ public class Forms {
 		return result;
 	}
 
-	public void setChMostra( final boolean value )
+	public void setChMostra(final boolean value)
 	{
 		formOpt.ChMostra.setSelected(value);
 	}

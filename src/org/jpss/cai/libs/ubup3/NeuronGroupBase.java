@@ -20,7 +20,7 @@ public class NeuronGroupBase
 	int WrongPredictionAtWin;
 	int CorrectPredictionAtWin;
 
-	public void victory( final int VCount )
+	public void victory(final int VCount)
 	{
 		Vitories++;
 		CorrectPredictionAtWin++;
@@ -33,7 +33,7 @@ public class NeuronGroupBase
 		WrongPredictionAtWin++;
 	}
 
-	public void incNeuronPredictionCnt( final boolean ok )
+	public void incNeuronPredictionCnt(final boolean ok)
 	{
 		if( ok ) {
 			CorrectNeuronPredictionCnt++;

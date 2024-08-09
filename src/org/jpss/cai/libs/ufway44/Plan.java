@@ -4,18 +4,19 @@ import org.jpss.cai.libs.PState;
 import org.jpss.cai.libs.State;
 import org.jpss.cai.util.MM;
 
-//
-//This class has 2 main goals:
-//* This class can be used as a "plan builder" done by methods "Run" and "Multiple Run".
-//* This class can be used as a "plan optimizer" done by methods "Optimize From" and "MultipleOptimizeFrom".
-//The plan is stored in the FPlan property.
-//
+/*
+  This class has 2 main goals:
+  * This class can be used as a "plan builder" done by methods "Run" and "Multiple Run".
+  * This class can be used as a "plan optimizer" done by methods "Optimize From" and "MultipleOptimizeFrom".
+  The plan is stored in the FPlan property.
+*/
 public abstract class Plan
 {
-	public abstract boolean PredictNextState( final /*var*/ PState pCurrent, final byte targetState );
-	public abstract boolean EasyPredictNextState( final /*var*/ PState pCurrent, final byte targetState );
+	public abstract boolean PredictNextState(final /*var*/ PState pCurrent, final byte targetState);
+	public abstract boolean EasyPredictNextState(final /*var*/ PState pCurrent, final byte targetState);
 
 	private final int FNumberActions;
+
 // true means that the object is a plan that leads to success.
 	public boolean Found;
 // the plan.
@@ -52,35 +53,36 @@ public abstract class Plan
 		Found = false;
 	}
 
-	//Gera Plano
-	//TVS: onde vai ser montado o plano
-	//Estado: Estado Inicial do Planejamento
-	//NCicles: Numero de ciclos do planejamento (profundidade mĂˇxima)
-	//PPred: Funcao de predicao. Retorna true quando acha satisfacao
-	//NumberActions: numero de acoes possiveis. O intervalo de acoes
-	//eh 0.. NumberActions-1
-	// BuildPlanFn
+	/*
+	  Gera Plano
+	  TVS: onde vai ser montado o plano
+	  Estado: Estado Inicial do Planejamento
+	  NCicles: Numero de ciclos do planejamento (profundidade mĂˇxima)
+	  PPred: Funcao de predicao. Retorna true quando acha satisfacao
+	  NumberActions: numero de acoes possiveis. O intervalo de acoes
+	  eh 0.. NumberActions-1
+	*/
 
 		private final PState tmp3 = new PState();
 
-		private byte ChooseRandomAction( final PState tmp )
+		private byte ChooseRandomAction(final PState tmp)
 		{
 			for( int i = 0; i < FNumberActions; i++ ) {
-				final byte Action = (byte)MM.random( FNumberActions);
+				final byte Action = (byte)MM.random(FNumberActions);
 				tmp3.states = tmp.states;
 				PredictNextState(/*var*/ tmp3, Action);
 				if( FPlan.fastIndexOf(tmp3.states) == -1 ) {
 					return Action;
 				}
 			}
-			return (byte)MM.random( FNumberActions);
+			return (byte)MM.random(FNumberActions);
 		}
 	
-	//
-	// This function tries to find a solution in just 1 step.
-	// Returns -1 if can't find solution in 1 step.
-	// In the case a solution is found, returns the action id.
-	//
+		/*
+		  This function tries to find a solution in just 1 step.
+		  Returns -1 if can't find solution in 1 step.
+		  In the case a solution is found, returns the action id.
+		*/
 		private final PState tmp4 = new PState();
 
 		private byte ChooseActionIn1Step(final /*var*/PState tmp)
@@ -98,13 +100,13 @@ public abstract class Plan
 
 	private final PState tmp2 = new PState();
 
-	private double BuildPlan ( final State StartState, final int planSize )
+	private double BuildPlan(final State StartState, final int planSize)
 	{
 		State.deref(tmp2.states);
 		tmp2.states = StartState.clone();	// ride states
 
-		final boolean Prefered = (MM.random( 2) > 0);
-		final byte PreferedAct = (byte)MM.random( FNumberActions);
+		final boolean Prefered = MM.random(2) > 0;
+		final byte PreferedAct = (byte)MM.random(FNumberActions);
 		for( int Cicles = 1; Cicles <= planSize; Cicles++ ) {
 			byte Action = ChooseActionIn1Step(/*var*/tmp2);
 			if( Action != -1 ) {
@@ -113,7 +115,7 @@ public abstract class Plan
 				return Cicles;
 			} else {
 				//has not found satisfaction in 1 step.
-				if( Prefered && (MM.random( 2) > 0) ) {
+				if( Prefered && MM.random(2) > 0 ) {
 					Action = PreferedAct;
 				} else {
 					Action = ChooseRandomAction(tmp2);
@@ -160,20 +162,20 @@ public abstract class Plan
 
 	private final PState tmp1 = new PState();
 
-	private double TryToBuildSubPath( final State FinishState, final State StartState, final int NCicles )
+	private double TryToBuildSubPath(final State FinishState, final State StartState, final int NCicles)
 	{
 		State.deref(tmp1.states);
 		tmp1.states = StartState.clone();	// ride states
 
-		final boolean Prefered = (MM.random( 2) > 0);
-		final byte PreferedAct = (byte)MM.random( FNumberActions);
+		final boolean Prefered = MM.random(2) > 0;
+		final byte PreferedAct = (byte)MM.random(FNumberActions);
 		for( int Cicles = 1; Cicles <= NCicles; Cicles++ ) {
 
 			final byte Action;
-			if( Prefered && (MM.random( 2) > 0) ) {
+			if( Prefered && MM.random(2) > 0 ) {
 				Action = PreferedAct;	// 50% is this action.
 			} else {
-				Action = (byte)MM.random( FNumberActions);	// 50% is a random action.
+				Action = (byte)MM.random(FNumberActions);	// 50% is a random action.
 			}
 			//produces a new state based on a random action.
 			EasyPredictNextState(/*var*/ tmp1, Action);
@@ -187,13 +189,13 @@ public abstract class Plan
 	}
 
 	// Plan optimization methods.
-	public int OptimizeFrom( final int ST, final int deep )
+	public int OptimizeFrom(final int ST, final int deep)
 	{
 		if( ST > FPlan.numStates() - 3 ) {
 			return 0;
 		}
-		int StartPos = MM.random( FPlan.numStates() - ST) + ST;
-		int FinishPos = MM.random( FPlan.numStates() - ST) + ST;
+		int StartPos = MM.random(FPlan.numStates() - ST) + ST;
+		int FinishPos = MM.random(FPlan.numStates() - ST) + ST;
 		if( FinishPos < StartPos ) {
 			// LExchange
 			int AUX = StartPos;
@@ -208,7 +210,7 @@ public abstract class Plan
 		V2.include(StartState, FPlan.action(StartPos));
 		final State FinishState = FPlan.state(FinishPos);
 		// creates a new subway/subpath
-		TryToBuildSubPath( FinishState, StartState, deep);
+		TryToBuildSubPath(FinishState, StartState, deep);
 		V2.removeAllCicles();
 		// for each state in the new sub path
 		for( int v2pos = 1; v2pos < V2.numStates(); v2pos++ ) {

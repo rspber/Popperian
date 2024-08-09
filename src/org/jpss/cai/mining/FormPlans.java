@@ -19,20 +19,20 @@ public class FormPlans extends Group
 	void initShps()
 	{
 		Shps = new Shape[URobMin2.csMaxAgents];
-		Shps[0] = new AgentShapes.TBase( 144,  56, 15 );
+		Shps[0] = new AgentShapes.TBase(144,  56, 15);
 		int y = 80;
 		int i = 1;
 		for( ; i < URobMin2.csMaxAgents - URobMin2.csRunners; ++i ) {
-			Shps[i] = new AgentShapes.TAgent( 144,  y, 10, AgentShapes.RNDC[i] );
+			Shps[i] = new AgentShapes.TAgent(144,  y, 10, AgentShapes.RNDC[i]);
 			y += 24;
 		}
 		while( i < URobMin2.csMaxAgents ) {
-			Shps[i] = new AgentShapes.TRunner( 144, y, 10 );
+			Shps[i] = new AgentShapes.TRunner(144, y, 10);
 			++i;
 		}
 		pane.getChildren().clear();
-		pane.getChildren().add( canvas );
-		pane.getChildren().addAll( Shps );
+		pane.getChildren().add(canvas);
+		pane.getChildren().addAll(Shps);
 	}
 	
 	FormPlans()
@@ -58,9 +58,9 @@ public class FormPlans extends Group
 
 	private Shape[] Shps;
 
-	private void Clear__( final ArtificialMiningWorld FMiningWorld )
+	private void Clear__(final ArtificialMiningWorld FMiningWorld)
 	{
-		gc.setFill( Color.WHITE );
+		gc.setFill(Color.WHITE);
 		gc.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
 
 		if( FMiningWorld.showGrid() ) {
@@ -71,8 +71,8 @@ public class FormPlans extends Group
 	
 			gc.setStroke(Color.LIGHTGRAY);
 			for( int i = 0; i <= L; i++ ) {
-				gc.strokeLine( (0+1) * w, (i+1) * h, (L+1) * w, (i+1) * h );
-				gc.strokeLine( (i+1) * w, (0+1) * h, (i+1) * w, (L+1) * h );
+				gc.strokeLine((0+1) * w, (i+1) * h, (L+1) * w, (i+1) * h);
+				gc.strokeLine((i+1) * w, (0+1) * h, (i+1) * w, (L+1) * h);
 			}
 		}
 	}
@@ -84,7 +84,7 @@ public class FormPlans extends Group
 			Color.DARKGRAY
 		};
 
-	private void ShowPlan__( final Plan Plan, final int L, final Color color )
+	private void ShowPlan__(final Plan Plan, final int L, final Color color)
 	{
 		final double w = canvas.getWidth() / L;
 		final double h = canvas.getHeight() / L;
@@ -104,12 +104,12 @@ public class FormPlans extends Group
 					final double X2 = (-UFRob1.csWorldMin + x2 + 0.5) * w;
 					final double Y2 = (-UFRob1.csWorldMin + y2 + 0.5) * h;
 					if( Plan.Found ) {
-						gc.setStroke( p2.charge() == 0 ? Color.BLACK : Color.RED );
+						gc.setStroke(p2.charge() == 0 ? Color.BLACK : Color.RED);
 					}
 					else {
-						gc.setStroke( color );
+						gc.setStroke(color);
 					}
-					gc.strokeLine( X1, Y1, X2, Y2 );
+					gc.strokeLine(X1, Y1, X2, Y2);
 				}
 			}
 		}
@@ -118,7 +118,7 @@ public class FormPlans extends Group
 		}
 	}
 
-	private void ShowAgents__( final ArtificialMiningWorld FMiningWorld )
+	private void ShowAgents__(final ArtificialMiningWorld FMiningWorld)
 	{
 		final int L = UFRob1.FWorldLength;
 		final double w = canvas.getWidth() / L;
@@ -126,36 +126,36 @@ public class FormPlans extends Group
 
 		for( int i = 0; i < FMiningWorld.AgentCount(); i++ ) {
 			final Position p = FMiningWorld.Agent(i);
-			Shps[i].setTranslateX( (-UFRob1.csWorldMin + p.x) * w);
-			Shps[i].setTranslateY( (-UFRob1.csWorldMin + p.y) * h);
+			Shps[i].setTranslateX((-UFRob1.csWorldMin + p.x) * w);
+			Shps[i].setTranslateY((-UFRob1.csWorldMin + p.y) * h);
 		}
 	}
 
-	public void MostraPlanos__( final Plan[] Plans, final ArtificialMiningWorld FMiningWorld )
+	public void MostraPlanos__(final Plan[] Plans, final ArtificialMiningWorld FMiningWorld)
 	{
-		Clear__( FMiningWorld );
+		Clear__(FMiningWorld);
 		int cl = 0;
 		for( final Plan Plan : Plans ) {
-			ShowPlan__( Plan, UFRob1.FWorldLength, RNDC[cl++] );
+			ShowPlan__(Plan, UFRob1.FWorldLength, RNDC[cl++]);
 			if( cl >= RNDC.length ) {
 				cl = 0;
 			}
 		}
-		ShowAgents__( FMiningWorld );
+		ShowAgents__(FMiningWorld);
 	}
 
-	public void ShowPlan( final Plan Plan, final int FWorldLength )
+	public void ShowPlan(final Plan Plan, final int FWorldLength)
 	{
 		Platform.runLater(() -> {
 			int cl = MM.random.nextInt(RNDC.length);
-			ShowPlan__( Plan, FWorldLength, RNDC[cl] );
+			ShowPlan__(Plan, FWorldLength, RNDC[cl]);
 		});
 	}
 
-	public void MostraPlanos( final Plan[] Plans, final ArtificialMiningWorld FMiningWorld )
+	public void MostraPlanos(final Plan[] Plans, final ArtificialMiningWorld FMiningWorld)
 	{
 		Platform.runLater(() -> {
-			MostraPlanos__( Plans, FMiningWorld );
+			MostraPlanos__(Plans, FMiningWorld);
 		});
 	}
 }

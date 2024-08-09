@@ -41,24 +41,19 @@ public class RunOperation {
 
 	private int LocalTestTests(final Tests tests)
 	{
-		int PermissibleErrors = 0;
-
 		if( tests.N() > 0 ) {
-			PermissibleErrors = tests.N() - tests.TestThreshold;
+			int PermissibleErrors = tests.N() - tests.testThreshold;
 			for( final Operation Oper : tests.T ) {
 				if( PermissibleErrors < 0 ) {
-					break;
+					return 0;
 				}
-				if( 0 == Test(Oper, tests.TestBasePosition) ) {
+				if( Test(Oper, tests.testBasePosition) == 0 ) {
 					PermissibleErrors--;
 				}
 			}
+			return PermissibleErrors >= 0 ? tests.N() - PermissibleErrors : 0;
 		}
-		if( PermissibleErrors >= 0 && tests.N() > 0 ) {
-			return tests.N() - PermissibleErrors;
-		} else {
-			return 0;
-		}
+		return 0;
 	}
 
 	private int ConvoluteTests(final Tests tests)
@@ -69,7 +64,7 @@ public class RunOperation {
 		for( int x = FCS.FeatureSize; x < TopX; x++ ) {
 			for( int y = FCS.FeatureSize; y < TopY; y++ ) {
 				int Pos = FCS.Make2D(x, y);
-				tests.TestBasePosition = Pos;
+				tests.testBasePosition = Pos;
 				if( LocalTestTests(tests) > 0 ) {
 					result = Pos;
 					break;
@@ -148,7 +143,7 @@ public class RunOperation {
 
 	public byte Test(final Operation oper, final int BasePosition)
 	{
-		final int NextState = getNextState( oper, BasePosition );
+		final int NextState = getNextState(oper, BasePosition);
 		final byte OpCode = (byte)(oper.OpCode & 0x3f);
 		if( UABFUN.inTestOperationSet(OpCode) ) {
 			return (byte)NextState;

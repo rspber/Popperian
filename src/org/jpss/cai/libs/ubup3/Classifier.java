@@ -18,7 +18,7 @@ class TLabeledState
 //	private final int FLabel;
 	final RunOperation FTester;
 
-	TLabeledState( final int FLabel, final RunOperation FTester )
+	TLabeledState(final int FLabel, final RunOperation FTester)
 	{
 //		this.FLabel = FLabel;
 		this.FTester = FTester;
@@ -34,9 +34,9 @@ public class Classifier extends StatePrediction
 	private int FNumClasses;
 	private double FRandomProbability;
 
-	public Classifier( boolean pZerosIncluded, int pNumOfNeurons, int pNumOfSearches, final CreateOperationSettings FCS, final boolean FGeneralize, final boolean FUseBelief )
+	public Classifier(boolean pZerosIncluded, int pNumOfNeurons, int pNumOfSearches, final CreateOperationSettings FCS, final boolean FGeneralize, final boolean FUseBelief)
 	{
-		super( pZerosIncluded, pNumOfNeurons, pNumOfSearches, FCS, FGeneralize, FUseBelief);
+		super(pZerosIncluded, pNumOfNeurons, pNumOfSearches, FCS, FGeneralize, FUseBelief);
 		FStates = new ArrayList<>();
 	}
 
@@ -49,7 +49,7 @@ public class Classifier extends StatePrediction
 
 	public void AddState(final int pLabel, final State pState)
 	{
-		FStates.add( new TLabeledState( pLabel, new RunOperation(FCS, pState, new State(1), new State(1) )));
+		FStates.add(new TLabeledState(pLabel, new RunOperation(FCS, pState, new State(1), new State(1))));
 	}
 
 	private int EvolveNeuronGroupAtPos(final int neuronPos)
@@ -86,7 +86,7 @@ public class Classifier extends StatePrediction
 		int TotalCnt = 0;
 		if( FStates.size() > 0 ) {
 			for( int StateCount = 0; StateCount <= 1000; StateCount++ ) {
-				final int StatePos = MM.random( FStates.size() );
+				final int StatePos = MM.random(FStates.size() );
 				if( FStates.get(StatePos).FTester.TestTests(NG.TestNeuronLayer) > 0 ) {
 					TotalCnt++;
 					if( FStates.get(StatePos).FTester.Test(NG.OperationNeuronLayer, NG.PredictionPos) > 0 ) {
@@ -109,9 +109,9 @@ public class Classifier extends StatePrediction
 		return 0;
 	}
 
-	private NeuronGroup MutateNeuronGroup( final NeuronGroup NG )
+	private NeuronGroup MutateNeuronGroup(final NeuronGroup NG)
 	{
-		byte MutationType = (byte)MM.random( 3);
+		byte MutationType = (byte)MM.random(3);
 //0: delete
 //1: add
 //2: modify (both)
@@ -126,17 +126,17 @@ public class Classifier extends StatePrediction
 			MutationType = 0;
 		}
 		if( MutationType == 0 ) {
-			tests.RandomDeleteOperation();
+			tests.randomDeleteOperation();
 		} else {
 			if( MutationType == 1 ) {
-				tests.AddTest(FStates.get(0).FTester.CreateActionRandomBinaryTest());
+				tests.addTest(FStates.get(0).FTester.CreateActionRandomBinaryTest());
 			} else {
-				tests.RandomDeleteOperation();
-				tests.AddTest(FStates.get(0).FTester.CreateActionRandomBinaryTest());
+				tests.randomDeleteOperation();
+				tests.addTest(FStates.get(0).FTester.CreateActionRandomBinaryTest());
 			}
 		}
 		final int N = tests.N();
-		tests.TestThreshold = N > 10 ? N - (int)MM.random(N / 10.0) : N;
+		tests.testThreshold = N > 10 ? N - (int)MM.random(N / 10.0) : N;
 		return NG;
 	}
 
@@ -144,14 +144,14 @@ public class Classifier extends StatePrediction
 	{
 		final NeuronGroup ng = neuron(neuronPos);
 		ng.RemoveOperations();
-		ng.TestNeuronLayer.AddTest(FStates.get(0).FTester.CreateActionRandomBinaryTest());
-		ng.TestNeuronLayer.TestThreshold = ng.TestNeuronLayer.N();
+		ng.TestNeuronLayer.addTest(FStates.get(0).FTester.CreateActionRandomBinaryTest());
+		ng.TestNeuronLayer.testThreshold = ng.TestNeuronLayer.N();
 		ng.OperationNeuronLayer = new Operation(UABFUN.csSet, pClass, 0, false, false, false);
 	}
 
-	public byte PredictClass( final State PActions )
+	public byte PredictClass(final State PActions )
 	{
-		final RunOperation ABF = new RunOperation( FCS, PActions, new State(1), new State(1) );
+		final RunOperation ABF = new RunOperation(FCS, PActions, new State(1), new State(1));
 
 		final double[] PossibleStates = new double[FNumClasses];
 		for( int i = 0; i < PossibleStates.length; i++ ) {
@@ -161,8 +161,8 @@ public class Classifier extends StatePrediction
 			final double Probability = ng.GetF();
 			final int PredictionPosition = 0;
 			if( ng.Filled() && Probability > 0.1 && ng.CorrectNeuronPredictionCnt > 10 ) {
-				if( ABF.TestTests( ng.TestNeuronLayer ) > 0 ) {
-					final byte NextState = (byte)ABF.getNextState( ng.OperationNeuronLayer, PredictionPosition);
+				if( ABF.TestTests(ng.TestNeuronLayer) > 0 ) {
+					final byte NextState = (byte)ABF.getNextState(ng.OperationNeuronLayer, PredictionPosition);
 					PossibleStates[NextState] = (Probability - FRandomProbability) + PossibleStates[NextState];
 				}	
 			}

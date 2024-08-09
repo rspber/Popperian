@@ -22,24 +22,24 @@ public final class ArtificialMiningWorld
 		return AgentP.length;
 	}
 
-	Position Agent( final int i )
+	Position Agent(final int i)
 	{
 		return AgentP[i];
 	}
 
-	ArtificialMiningWorld( final int FWorldLength )
+	ArtificialMiningWorld(final int FWorldLength)
 	{
 		this.FWorldLength = FWorldLength;
 	}
 
-	int ApplyInitialPositions( final Position[] InitPos )
+	int ApplyInitialPositions(final Position[] InitPos)
 	{
 		int TotalCharge = 0;
 
 		AgentP = new Position[ InitPos.length ];
 		for( int i = 0; i < InitPos.length; ++i ) {
 			final Position p = InitPos[i];
-			AgentP[i] = new Position( 0, 0, 0);
+			AgentP[i] = new Position(0, 0, 0);
 			AgentP[i].set( p );
 			TotalCharge += p.Charge;
 		}
@@ -52,7 +52,7 @@ public final class ArtificialMiningWorld
 		return FShowGrid;
 	}
 /*
-	public void FixPos( final Position p )
+	public void FixPos(final Position p)
 	{
 		if( p.x < 0 ) {
 			p.x += FWorldLength;
@@ -68,11 +68,11 @@ public final class ArtificialMiningWorld
 		}
 	}
 
-	public void MoveAgentR( final int dx, final int dy, final Position p )
+	public void MoveAgentR(final int dx, final int dy, final Position p)
 	{
 		p.x += dx;
 		p.y += dy;
-		FixPos( p );
+		FixPos(p);
 	}
 
 	public void DefineWorldLength()
@@ -102,7 +102,7 @@ public final class ArtificialMiningWorld
 		return AgentP[ AgentP.length-1 ];
 	}
 
-	boolean EncounterMINE( final Position RUNNER )
+	boolean EncounterMINE(final Position RUNNER)
 	{
 		for( int i = URobMin2.csMiningIdx; i < URobMin2.csMaxAgents - URobMin2.csRunners; ++i ) {	// 1
 			if( RUNNER.Encounter(AgentP[i]) ) {
@@ -114,7 +114,7 @@ public final class ArtificialMiningWorld
 
 	// ---------------------------------------------------------------------------
 
-	private void goLeft( final Position p )
+	private void goLeft(final Position p)
 	{
 		double nx = p.x - 1;
 		if( nx < UFRob1.csWorldMin ) {
@@ -129,7 +129,7 @@ public final class ArtificialMiningWorld
 		}
 	}
 
-	private void goRight( final Position p )
+	private void goRight(final Position p)
 	{
 		double nx = p.x + 1;
 		if( nx >= UFRob1.csWorldMax ) {
@@ -144,7 +144,7 @@ public final class ArtificialMiningWorld
 		}
 	}
 
-	private void goUp( final Position p )
+	private void goUp(final Position p)
 	{
 		double ny = p.y - 1;
 		if( ny < UFRob1.csWorldMin ) {
@@ -159,7 +159,7 @@ public final class ArtificialMiningWorld
 		}
 	}
 
-	private void goDown( final Position p )
+	private void goDown(final Position p)
 	{
 		double ny = p.y + 1;
 		if( ny >= UFRob1.csWorldMax ) {
@@ -174,7 +174,7 @@ public final class ArtificialMiningWorld
 		}
 	}
 
-	public boolean move( final Position p, final byte Direction )
+	public boolean move(final Position p, final byte Direction)
 	{
 		final double OX = p.x;
 		final double OY = p.y;
@@ -226,7 +226,7 @@ public final class ArtificialMiningWorld
 		return OX != p.x || OY != p.y;
 	}
 
-	public void Load( final Position p )
+	public void Load(final Position p)
 	{
 		if( p.Charge == 0 ) {
 			for( int i = URobMin2.csMiningIdx; i < URobMin2.csMaxAgents - URobMin2.csRunners; ++i ) {
@@ -245,7 +245,7 @@ public final class ArtificialMiningWorld
 		}
 	}
 
-	public void Unload( final Position p )
+	public void Unload(final Position p)
 	{
 		final Position a = AgentP[URobMin2.csBaseIdx];
 		if( p.Charge == 1 && p.Encounter(a) ) {
@@ -255,21 +255,21 @@ public final class ArtificialMiningWorld
 		}
 	}
 
-	public void RandomPos( final Position p )
+	public void RandomPos(final Position p)
 	{
-		p.x = UFRob1.csWorldMin + MM.random( FWorldLength );
-		p.y = UFRob1.csWorldMin + MM.random( FWorldLength );
+		p.x = UFRob1.csWorldMin + MM.random(FWorldLength);
+		p.y = UFRob1.csWorldMin + MM.random(FWorldLength);
 	}
 /*
 	private void RandomMove(final int P)
 	{
-		move( AgentP[P], (byte)MM.random( 4) );	// left, right, up, down
+		move(AgentP[P], (byte)MM.random(4));	// left, right, up, down
 	}
 */
 	public void RandomPos()
 	{
 		for( final Position p : AgentP ) {
-			RandomPos( p );
+			RandomPos(p);
 		}
 	}
 

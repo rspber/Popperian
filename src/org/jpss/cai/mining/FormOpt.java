@@ -22,7 +22,7 @@ import javafx.scene.layout.VBox;
 
 public class FormOpt extends Group
 {
-	FormOpt( final Forms forms )
+	FormOpt(final Forms forms)
 	{
 		final BorderPane borderPane = new BorderPane();
 		borderPane.setPrefSize(280, 440);
@@ -30,9 +30,9 @@ public class FormOpt extends Group
 			final Label LabMines = new Label("Mines:");
 			EdMines = new MySpinner<>(1, 15, 3, 1, 60);
 			EdMines.valueProperty().addListener((observable, oldValue, newValue) -> {
-				forms.setAgents( newValue );
+				forms.setAgents(newValue);
 			});
-		final TitledPane GroupPopSet = new TitledPane( "Popperian Mining Agent Options: ", new VBox(new HBox( LabMines, EdMines) ) );
+		final TitledPane GroupPopSet = new TitledPane("Popperian Mining Agent Options: ", new VBox(new HBox(LabMines, EdMines)));
 			CHPlan = new MyCheckBox("Follow Planning", 155 );
 			CHPlan.setDisable(true);
 		//	OnChange = CHPlanChange
@@ -51,47 +51,47 @@ public class FormOpt extends Group
 			CHABC.setSelected(true);
 			CHABC.setVisible(false);
 
-			CBNovoPlano = new MyCheckBox( "Create New Plans", 155 );
+			CBNovoPlano = new MyCheckBox("Create New Plans", 155);
 			CBNovoPlano.setDisable(true);
 
-			CBEliminaIncorreto = new MyCheckBox( "Remove Incorrect Plan" );
+			CBEliminaIncorreto = new MyCheckBox("Remove Incorrect Plan");
 			CBEliminaIncorreto.setSelected(true);
 			CBEliminaIncorreto.setDisable(true);
-//			GroupPopOpt.getChildren().addAll( w HBox(CHPlan, ShowGrid), CHABC, new HBox(CBNovoPlano, NoRove), CBEliminaIncorreto );
+//			GroupPopOpt.getChildren().addAll(new HBox(CHPlan, ShowGrid), CHABC, new HBox(CBNovoPlano, NoRove), CBEliminaIncorreto);
 		final VBox GroupPopOpt = new VBox(new HBox(CHPlan, ShowPlanningGrid), CHABC, CBNovoPlano, CBEliminaIncorreto );
 
-			TBRandom = new MyScrollBar( 0, 100, 100, 193, 33);
+			TBRandom = new MyScrollBar(0, 100, 100, 193, 33);
 			//	OnChange = TBRandomChange
-			GBRandom = new TitledPane( "Random Behaviour: 100%", TBRandom );
+			GBRandom = new TitledPane("Random Behaviour: 100%", TBRandom);
 			TBRandom.valueProperty().addListener((ObservableValue<? extends Number> ov, Number old_val, Number new_val) -> {
-				GBRandom.setText( "Random Behaviour: " + new_val.intValue() + "%" );
+				GBRandom.setText("Random Behaviour: " + new_val.intValue() + "%");
 			});
 			GBRandom.setPadding(new Insets(5,0,0,0));
 
-				TBOptimization =  new MyScrollBar( 0, 100, 1, 193, 33);
+				TBOptimization =  new MyScrollBar(0, 100, 1, 193, 33);
 			//	OnChange = TBOptimizationChange
-			GBOtim = new TitledPane( "Optimization: 1%", TBOptimization );
+			GBOtim = new TitledPane("Optimization: 1%", TBOptimization);
 			TBOptimization.valueProperty().addListener((ObservableValue<? extends Number> ov, Number old_val, Number new_val) -> {
-				GBOtim.setText( "Optimization: " + new_val.intValue() + "%" );
+				GBOtim.setText("Optimization: " + new_val.intValue() + "%");
 			});
 			GBOtim.setPadding(new Insets(5,0,0,0));
 
-				TBSpeed =  new MyScrollBar( 0, 100, 50, 193, 33);
+				TBSpeed =  new MyScrollBar(0, 100, 50, 193, 33);
 			//	OnChange = TBOptimizationChange
-			GBSpeed = new TitledPane( "Speed: 50%", TBSpeed );
+			GBSpeed = new TitledPane("Speed: 50%", TBSpeed);
 			TBSpeed.valueProperty().addListener((ObservableValue<? extends Number> ov, Number old_val, Number new_val) -> {
-				GBSpeed.setText( "Speed: " + new_val.intValue() + "%" );
+				GBSpeed.setText("Speed: " + new_val.intValue() + "%");
 			});
 			GBSpeed.setPadding(new Insets(5,0,0,0));
-		borderPane.setCenter( new VBox(GroupPopSet, GroupPopOpt, GBRandom, GBOtim, GBSpeed) );
+		borderPane.setCenter(new VBox(GroupPopSet, GroupPopOpt, GBRandom, GBOtim, GBSpeed));
 
-			ChMostra = new MyCheckBox( "Show World (CPU Intensive)");
+			ChMostra = new MyCheckBox("Show World (CPU Intensive)");
 			ChMostra.setSelected(true);
-			CBShowPlan = new MyCheckBox( "Show Planning (CPU Intensive)");
+			CBShowPlan = new MyCheckBox("Show Planning (CPU Intensive)");
 				LabCiclos = new Label("Cycles:");
-				EdCiclos = new TextField( "2000000" );
-		final VBox GroupAmbiente = new VBox( ChMostra, CBShowPlan, new HBox( LabCiclos, EdCiclos ) );
-		borderPane.setBottom( new TitledPane( "Virtual World Options : ", GroupAmbiente) );
+				EdCiclos = new TextField("2000000");
+		final VBox GroupAmbiente = new VBox(ChMostra, CBShowPlan, new HBox(LabCiclos, EdCiclos));
+		borderPane.setBottom(new TitledPane("Virtual World Options : ", GroupAmbiente));
 
 		getChildren().add(borderPane);
 	}

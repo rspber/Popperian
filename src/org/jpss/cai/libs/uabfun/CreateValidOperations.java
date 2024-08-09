@@ -10,10 +10,10 @@ import org.jpss.cai.util.MM;
 //CreateValidOperations 
 public class CreateValidOperations extends RunOperation
 {
-	private final List<Operation> FOperations = new ArrayList<>();
-	private int FBasePosition;
-	private int FPredictedBytePos;
-	private int FFeatureCenter2D;
+	private final List<Operation> fOperations = new ArrayList<>();
+	private int fBasePosition;
+	private int fPredictedBytePos;
+	private int fFeatureCenter2D;
 
 	public CreateValidOperations(final CreateOperationSettings PCS,
 		final State Actions,
@@ -24,14 +24,14 @@ public class CreateValidOperations extends RunOperation
 	}
 
 	// Returns the number of current valid operations in FOperations.
-	public int FOperationsCount()
+	public int operationsCount()
 	{
-		return FOperations.size();
+		return fOperations.size();
 	}
 
 	private boolean CanInclude()
 	{
-		final boolean r = FOperations.size() < UABFUN.csMaxOperationsArray - 1;
+		final boolean r = fOperations.size() < UABFUN.csMaxOperationsArray - 1;
 		if( !r ) {
 			System.out.println("Warning: can not include operation.");
 		}
@@ -45,8 +45,8 @@ public class CreateValidOperations extends RunOperation
 			FCS.MaxTests = csMaxTests;
 		}
 */
-		FPredictedBytePos = PredictedBytePos;
-		FFeatureCenter2D = FCS.Bidimensional ? FCS.CreateFeatureCenter() : 0;
+		this.fPredictedBytePos = PredictedBytePos;
+		fFeatureCenter2D = FCS.Bidimensional ? FCS.CreateFeatureCenter() : 0;
 	}
 
 	private void Include(final byte OpCode, int Op1, int Op2, boolean RelOp1, boolean RelOp2, final boolean RunOnAction)
@@ -59,22 +59,22 @@ public class CreateValidOperations extends RunOperation
 			RelOp1 = false;
 		}
 		if( RelOp1 ) {
-			Op1 = Op1 - FBasePosition;
+			Op1 = Op1 - fBasePosition;
 		}
 		if( RelOp2 ) {
-			Op2 = Op2 - FBasePosition;
+			Op2 = Op2 - fBasePosition;
 		}
 		final Operation Oper = new Operation(OpCode, Op1, Op2, RelOp1, RelOp2, RunOnAction);
 
 		//if the operation has the predicted state (returns true), include it.
-		if( Test(Oper, FBasePosition) != 0 ) {
+		if( Test(Oper, fBasePosition) != 0 ) {
 			//include the new operation in FOperations
-			FOperations.add(Oper);
+			fOperations.add(Oper);
 		}
 	}
 
 		// This function returns an array with all non zero elements
-		private int[] getNonZeroElementsPos( final byte[] InputData )
+		private int[] getNonZeroElementsPos(final byte[] InputData)
 		{
 			int n = 0;
 			for( int i = 0; i < InputData.length; i++ ) {
@@ -115,7 +115,7 @@ public class CreateValidOperations extends RunOperation
 				for( int j = 1; j <= MJ; j++ ) {
 					final int ElementPosition = MM.random(LocalPreviousStates.length);
 					if( CanInclude() ) {
-						Include( UABFUN.csEqual, LocalPreviousStates[ElementPosition], ElementPosition, false, false, OnAction);
+						Include(UABFUN.csEqual, LocalPreviousStates[ElementPosition], ElementPosition, false, false, OnAction);
 					} else {
 						return;
 					}
@@ -180,8 +180,8 @@ public class CreateValidOperations extends RunOperation
 					for( int i = 0; i < MI; i++ ) {
 						final int Pos1, Pos2;
 						if( FCS.Bidimensional ) {
-							Pos1 = FCS.GetRandom2DPos(FBasePosition);
-							Pos2 = FCS.GetRandom2DPos(FBasePosition);
+							Pos1 = FCS.GetRandom2DPos(fBasePosition);
+							Pos2 = FCS.GetRandom2DPos(fBasePosition);
 						} else {
 							Pos1 = MM.random(LocalPreviousStates.length);
 							Pos2 = MM.random(LocalPreviousStates.length);
@@ -222,13 +222,13 @@ public class CreateValidOperations extends RunOperation
 			private void PSet()
 			{
 				if( CanInclude() ) {
-					Include(UABFUN.csSet, NextStates.state(FPredictedBytePos), 0, false, false, false);
+					Include(UABFUN.csSet, NextStates.state(fPredictedBytePos), 0, false, false, false);
 				}
 			}
 	
-			public void CreateOperations( final boolean Tests, final boolean FullEqual/*, final byte[] ERRORS*/)
+			public void CreateOperations(final boolean Tests, final boolean FullEqual/*, final byte[] ERRORS*/)
 			{
-				FOperations.clear();
+				fOperations.clear();
 		//		NonZeroErrors = getNonZeroElementsPos(ERRORS);
 				if( !FCS.TestOnStates ) {
 					RunOnActionFlag = 1;
@@ -250,10 +250,10 @@ public class CreateValidOperations extends RunOperation
 					OnAction = false;
 				}
 				LocalNonZeroPrevStates = getNonZeroElementsPos(LocalPreviousStates);
-				FBasePosition = FPredictedBytePos;
+				fBasePosition = fPredictedBytePos;
 				if( Tests ) {
 					if( FCS.Bidimensional ) {
-						FBasePosition = FFeatureCenter2D;
+						fBasePosition = fFeatureCenter2D;
 					}
 					if( FullEqual || FCS.Bidimensional ) {
 						if( FCS.AddEqualTest ) {
@@ -302,16 +302,16 @@ public class CreateValidOperations extends RunOperation
 	// This function returns an already created random valid operation.
 	public Operation GetRandomOper()
 	{
-		final int N = FOperations.size();
+		final int N = fOperations.size();
 		int ResultingPosition = N == 1 ? 0 : MM.random(N);
-		Operation r = FOperations.get(ResultingPosition);
+		Operation r = fOperations.get(ResultingPosition);
 		if( N > 1 ) {
 //			int MAX = 100;
 			int MAX = N > 100 ? 100 : N;
 			while( MAX > 0 && r.OpCode == 0 ) {
 				MAX--;
 				ResultingPosition = MM.random(N);
-				r = FOperations.get(ResultingPosition);
+				r = fOperations.get(ResultingPosition);
 			}
 		}
 //
@@ -323,7 +323,7 @@ public class CreateValidOperations extends RunOperation
 //}
 //
 //		FOperations.get(ResultingPosition).OpCode = 0;
-		FOperations.set(ResultingPosition, Operation.Null);
+		fOperations.set(ResultingPosition, Operation.Null);
 		return r;
 //if MAX = 100 then
 //writeln("ERROR: max on getrandom max.", FOperations.size());
@@ -332,7 +332,7 @@ public class CreateValidOperations extends RunOperation
 	// returns the Image Feature Center
 	public int GetFeatureCenter2D()
 	{
-		return this.FFeatureCenter2D;
+		return this.fFeatureCenter2D;
 	}
 
 }

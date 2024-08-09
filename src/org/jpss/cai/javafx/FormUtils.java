@@ -8,12 +8,12 @@ import javafx.stage.Stage;
 
 public class FormUtils {
 
-	public static Stage stage( final Node node )
+	public static Stage stage(final Node node)
 	{
 		return (Stage)node.getScene().getWindow();
 	}
 
-	public static <T extends Group> T form( final String title, final T form )
+	public static <T extends Group> T form(final String title, final T form)
 	{
 		final Stage stage = new Stage();
 		stage.setTitle(title);

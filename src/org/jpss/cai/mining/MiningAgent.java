@@ -33,9 +33,9 @@ class MiningAgent extends CompositePlan
 	private final Forms Forms;
 
 
-	public Plan PlanPredict( final int id )
+	public Plan PlanPredict(final int id)
 	{
-		return new Plan( id, URobMin2.csNumberActions, UFRob1.csStateByteLength ) {
+		return new Plan(id, URobMin2.csNumberActions, UFRob1.csStateByteLength) {
 
 			private final ToAct clixo = new ToAct();
 
@@ -70,8 +70,8 @@ class MiningAgent extends CompositePlan
 				// input
 				final byte Action)
 			{
-				final State localState = pCurrentState.states.cloneAndSetAction( (byte)(Action + 1) );
-				LearnAndPredict.Predict( localState, localState, /*var*/pCurrentState );
+				final State localState = pCurrentState.states.cloneAndSetAction((byte)(Action + 1));
+				LearnAndPredict.Predict(localState, localState, /*var*/pCurrentState);
 				return URobMin2.isTargetAction(localState, Action);
 			}
 		};
@@ -83,7 +83,7 @@ class MiningAgent extends CompositePlan
 	{
 		final Plan[] Plans = new Plan[Ufway44.MaxPlans];
 		for( int i = 0; i < Plans.length; i++ ) {
-			Plans[i] = PlanPredict( i );
+			Plans[i] = PlanPredict(i);
 		}
 		return Plans;
 	}
@@ -92,7 +92,7 @@ class MiningAgent extends CompositePlan
 // ---------------------------------------------------------------------------
 
 	// Creates needed internal memory structures for learning and planning.
-	public MiningAgent( final EasyLearnAndPredict LearnAndPredict, final Forms Forms )
+	public MiningAgent(final EasyLearnAndPredict LearnAndPredict, final Forms Forms)
 	{
 		super();
 		this.csMaxPlanejamento = (int)Math.round(UFRob1.FWorldLength * 1.5);
@@ -121,7 +121,7 @@ class MiningAgent extends CompositePlan
 		}
 	}
 
-	private void AddPlan( final State pCurrentState, final boolean notCollapsePlans )
+	private void AddPlan(final State pCurrentState, final boolean notCollapsePlans)
 	{
 		if( LastStates.numStates() > 0 ) {
 			if( PreviousAction != URobMin2.csHold ) {	// 4
@@ -137,7 +137,7 @@ class MiningAgent extends CompositePlan
 		}
 	}
 
-	private boolean MakePlan( final State pCurrentState )
+	private boolean MakePlan(final State pCurrentState)
 	{
 		// chooses the worst plan and replaces by a newly built plan.
 		boolean WantQuit = false;
@@ -154,7 +154,7 @@ class MiningAgent extends CompositePlan
 				WantQuit = true;	//exit;
 			}
 		} else {
-			Forms.ShowPlan( P, UFRob1.FWorldLength );
+			Forms.ShowPlan(P, UFRob1.FWorldLength);
 		}
 		return WantQuit;
 	}
@@ -164,19 +164,19 @@ class MiningAgent extends CompositePlan
 
 	// Given a current state, this function is capable of choosing an action and
 	// build/optimize plans as required.
-	public byte ChooseActionAndPlan( final State pCurrentState )
+	public byte ChooseActionAndPlan(final State pCurrentState)
 	{
 		byte localAction = 0;
 		byte resultAction = URobMin2.csHold;	// 4
 		boolean WantQuit = false;
 // ---
 		if( !LastPlanned && (PreviousStates.charge() != pCurrentState.charge()) ) {
-			AddPlan( pCurrentState, true );
+			AddPlan(pCurrentState, true);
 		}
 // ---
 		final Plan tmpLastUsedPlan = LastUsedPlan;
-		if( Forms.Optimization() > MM.random( 100) ) {  // -------------- Optimization ?	// pass 2
-			if( MM.random( 2) > 0 ) {
+		if( Forms.Optimization() > MM.random(100) ) {  // -------------- Optimization ?	// pass 2
+			if( MM.random(2) > 0 ) {
 				MultipleOptimize(pCurrentState, 5, 20);
 			} else {
 				Optimize(pCurrentState, 95);
@@ -210,12 +210,12 @@ class MiningAgent extends CompositePlan
 					PlanningErrorCnt++;
 				}
 			}
-			if( ChooseBestPlan( pCurrentState, toAct ) ) {  // --------------- follows planning
+			if( ChooseBestPlan(pCurrentState, toAct) ) {  // --------------- follows planning
 				LastUsedPlan = toAct.BestPlan;
 				localAction = toAct.Action;
 				// lastAction = toAct.LastAct;
 				if( !LastPlanned ) {
-					AddPlan( pCurrentState, false );
+					AddPlan(pCurrentState, false);
 				}
 				if( LastPlannedStates.fastIndexOf(pCurrentState) != -1 ) { // Is this a  cycle?
 					InvalidateLastUsedPlan(); // delete cycling plan.
@@ -227,7 +227,7 @@ class MiningAgent extends CompositePlan
 			} else {
 				// create plan
 				// not a good outcome ???
-				if( !URobMin2.isTargetAction( PreviousStates, PreviousAction ) && LastPlanned && !(PreviousStates.charge() != pCurrentState.charge()) ) {
+				if( !URobMin2.isTargetAction(PreviousStates, PreviousAction) && LastPlanned && !(PreviousStates.charge() != pCurrentState.charge()) ) {
 					InvalidateLastUsedPlan();
 				}
 				LastPlanned = false;
@@ -235,7 +235,7 @@ class MiningAgent extends CompositePlan
 					LastStates.shiftAddState(pCurrentState, PreviousAction);
 				}
 				if( Forms.CreateNewPlan() ) { // ------------------ should create new plans ???
-					if( MakePlan( pCurrentState) ) {
+					if( MakePlan(pCurrentState) ) {
 						WantQuit = true;
 						resultAction = toAct.Action;
 					}
@@ -254,17 +254,17 @@ class MiningAgent extends CompositePlan
 			System.out.println("ERROR:Last Planned1");
 		}
 // ---
-		if( !WantQuit && (MM.random( 100) < Forms.RandomBehaviour()) ) {  // -------------- RandomBehaviour ?
+		if( !WantQuit && (MM.random(100) < Forms.RandomBehaviour()) ) {  // -------------- RandomBehaviour ?
 			boolean FPreferred = false;
 			byte PreferredAction = 0;
-			if( MM.random( UFRob1.FWorldLength * URobMin2.csNumberActions) == 0 ) {
-				FPreferred = (MM.random( 2) > 0);
-				PreferredAction = (byte)MM.random( URobMin2.csNumberActions);
+			if( MM.random(UFRob1.FWorldLength * URobMin2.csNumberActions) == 0 ) {
+				FPreferred = (MM.random(2) > 0);
+				PreferredAction = (byte)MM.random(URobMin2.csNumberActions);
 			}
-			if( FPreferred && MM.random( 2) > 0 ) {
+			if( FPreferred && MM.random(2) > 0 ) {
 				localAction = PreferredAction;
 			} else {
-				localAction = (byte)MM.random( URobMin2.csNumberActions);
+				localAction = (byte)MM.random(URobMin2.csNumberActions);
 			}
 			resultAction = localAction;
 			RandomActionsCnt++;
@@ -278,7 +278,7 @@ class MiningAgent extends CompositePlan
 			LastUsedPlan = null;
 		}
 
-		if( URobMin2.isTargetAction( PreviousStates, PreviousAction ) ) {
+		if( URobMin2.isTargetAction(PreviousStates, PreviousAction) ) {
 			if( LastPlannedStates.numStates() > 0 ) {
 				LastPlannedStates.clear();
 			}
