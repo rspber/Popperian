@@ -17,8 +17,8 @@ import org.jpss.cai.util.MM;
   This class is one of the most important classes in all project.
   This class is capable of predicting the next state of an array of bytes.
 */
-public class StatePrediction
-{
+public class StatePrediction {
+
 	public final CreateOperationSettings FCS;
 	private final boolean fGeneralize;
 	private final boolean fUseBelief;
@@ -50,13 +50,13 @@ public class StatePrediction
 	    slower but more capable.
 	*/
 	public StatePrediction(
-			final boolean pIncludeZeros,	// false = creates operation/neurons for non zero entries only.
-			final int pNumOfNeurons,		// number of combinatorial NEURONS. If you don't know how many to crete, give 200.
-			final int pNumOfSearches,		// the higher the number, more computations are used on each step. If you don't know what number to use, give 40.
-			final CreateOperationSettings FCS,
-			final boolean FGeneralize,
-			final boolean FUseBelief)
-	{
+		final boolean pIncludeZeros,	// false = creates operation/neurons for non zero entries only.
+		final int pNumOfNeurons,	// number of combinatorial NEURONS. If you don't know how many to crete, give 200.
+		final int pNumOfSearches,	// the higher the number, more computations are used on each step. If you don't know what number to use, give 40.
+		final CreateOperationSettings FCS,
+		final boolean FGeneralize,
+		final boolean FUseBelief
+	) {
 		super();
 		fZerosIncluded = pIncludeZeros;
 		SelectedIndexes = new int[pNumOfNeurons];
@@ -97,7 +97,7 @@ public class StatePrediction
 	// Same as ClearCountingAtPos but for all relations.
 	public void RemoveAllNeurons()
 	{
-		for( NeuronGroup ng : FNN ) {
+		for( final NeuronGroup ng : FNN ) {
 			ng.RemoveOperations();
 		}
 	}

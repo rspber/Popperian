@@ -6,8 +6,8 @@ import org.jpss.cai.libs.uabfun.Tests;
 // part of UBUP3
 
 //NeuronGroup 
-public class NeuronGroup extends NeuronGroupBase
-{
+public class NeuronGroup extends NeuronGroupBase {
+
 	// FIRST NEURAL NETWORK LAYER: testing layer - test are <, >, =, ...
 	final Tests TestNeuronLayer;
 
@@ -19,6 +19,7 @@ public class NeuronGroup extends NeuronGroupBase
 		TestNeuronLayer = new Tests();
 		OperationNeuronLayer = Operation.Null;
 	}
+
 	// Returns the neuron group score. Better neurons survive.
 	public double GetNeuronGroupScore()
 	{
@@ -40,10 +41,10 @@ public class NeuronGroup extends NeuronGroupBase
 		Clear();
 	}
 
-	public void copyFrom(final NeuronGroup t )
+	public void copyFrom(final NeuronGroup t)
 	{
 		Clear();
-		TestNeuronLayer.copyFrom(t.TestNeuronLayer );
+		TestNeuronLayer.copyFrom(t.TestNeuronLayer);
 		OperationNeuronLayer = t.OperationNeuronLayer;
 		PredictionPos = t.PredictionPos;
 	}

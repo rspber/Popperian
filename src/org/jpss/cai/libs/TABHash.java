@@ -8,7 +8,6 @@ public class TABHash
 {
 	static final int NOfBits = 8000 - 1;
 
-	
 	private final byte[] bits;
 
 	// creates memory structure with PLength number of bits.

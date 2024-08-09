@@ -1,10 +1,7 @@
 package org.jpss.cai.libs.ubup3;
 
-// part of UBUP3
+public class NeuronGroupBase {
 
-//TNeuronGroupBase 
-public class NeuronGroupBase
-{
 	// Where in the output array this neuron group predicts a state
 	int PredictionPos;
 
@@ -46,14 +43,14 @@ public class NeuronGroupBase
 	public double GetF()
 	{
 		final int T = WrongNeuronPredictionCnt + CorrectNeuronPredictionCnt;
-		return T > 0 ? (double)CorrectNeuronPredictionCnt / T : 0;
+		return T > 0 ? CorrectNeuronPredictionCnt / T : 0;
 	}
 
 	// returns (m+1)/(n+2)
 	public double GetD()
 	{
 		final int T = WrongNeuronPredictionCnt + CorrectNeuronPredictionCnt;
-		return (double)CorrectNeuronPredictionCnt / (T + 2);
+		return CorrectNeuronPredictionCnt / (T + 2);
 	}
 /*
 	// creates a string for storage
@@ -73,4 +70,3 @@ public class NeuronGroupBase
 	}
 
 }
-
