@@ -1,7 +1,7 @@
 package org.jpss.cai.mining;
 
-public class Position
-{
+public class Position {
+
 // x and y can vary from 0 until WorldLength-1.
 	double x, y;
 //States can be unloaded (URobMin2.csUnloaded)and loaded (URobMin2.csLoaded).

@@ -1,9 +1,7 @@
 package org.jpss.cai.mining;
 
-import org.jpss.cai.libs.State;
+public class URobMin2 {
 
-public class URobMin2
-{
 	public final static int csNumberActions = 7;
 // Actions
 	public final static byte csLeft = 0;
@@ -30,23 +28,5 @@ public class URobMin2
 	public static int csMaxAgents = csMiningIdx + 3 + csRunners;
 
 	public final static int csAgentCharge = 100;
-
-	// Is this the action that will allow the agent to load/unload (the ultimate target)?
-	public static boolean isTargetAction(final State st, final byte Action)
-	{
-		if( Action == csLoad ) {
-			if( st.closeToAgent() && st.charge() == 0 ) {
-				return true;
-			}
-		}
-		else {
-			if( Action == csUnLoad ) {
-				if( st.closeToBase() && st.charge() == 1 ) {
-					return true;
-				}
-			}
-		}
-		return false;
-	}
 
 }

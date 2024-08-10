@@ -72,7 +72,7 @@ class MiningAgent extends CompositePlan
 			{
 				final State localState = pCurrentState.states.cloneAndSetAction((byte)(Action + 1));
 				LearnAndPredict.Predict(localState, localState, /*var*/pCurrentState);
-				return URobMin2.isTargetAction(localState, Action);
+				return UFRob1.isTargetAction(localState, Action);
 			}
 		};
 		
@@ -227,7 +227,7 @@ class MiningAgent extends CompositePlan
 			} else {
 				// create plan
 				// not a good outcome ???
-				if( !URobMin2.isTargetAction(PreviousStates, PreviousAction) && LastPlanned && !(PreviousStates.charge() != pCurrentState.charge()) ) {
+				if( !UFRob1.isTargetAction(PreviousStates, PreviousAction) && LastPlanned && !(PreviousStates.charge() != pCurrentState.charge()) ) {
 					InvalidateLastUsedPlan();
 				}
 				LastPlanned = false;
@@ -278,7 +278,7 @@ class MiningAgent extends CompositePlan
 			LastUsedPlan = null;
 		}
 
-		if( URobMin2.isTargetAction(PreviousStates, PreviousAction) ) {
+		if( UFRob1.isTargetAction(PreviousStates, PreviousAction) ) {
 			if( LastPlannedStates.numStates() > 0 ) {
 				LastPlannedStates.clear();
 			}

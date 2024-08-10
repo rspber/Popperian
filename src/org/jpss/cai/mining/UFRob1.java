@@ -1,10 +1,11 @@
 package org.jpss.cai.mining;
 
+import org.jpss.cai.libs.State;
 import org.jpss.cai.libs.ubup3.EasyLearnAndPredict;
 import org.jpss.cai.util.MM;
 
-public class UFRob1
-{
+public class UFRob1 {
+
 	public final static int csStateByteLength = 8;
 	public final static int csWorldMin = -50;
 	public final static int csWorldMax = 50;
@@ -57,6 +58,23 @@ public class UFRob1
 		return InitPos;
 	}
 
+	// Is this the action that will allow the agent to load/unload (the ultimate target)?
+	public static boolean isTargetAction(final State st, final byte Action)
+	{
+		if( Action == URobMin2.csLoad ) {
+			if( st.closeToAgent() && st.charge() == 0 ) {
+				return true;
+			}
+		}
+		else {
+			if( Action == URobMin2.csUnLoad ) {
+				if( st.closeToBase() && st.charge() == 1 ) {
+					return true;
+				}
+			}
+		}
+		return false;
+	}
 
 	public void Button1Click()
 	{

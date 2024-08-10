@@ -1,9 +1,7 @@
 package org.jpss.cai.mining;
 
-import org.jpss.cai.util.MM;
+public final class ArtificialMiningWorld {
 
-public final class ArtificialMiningWorld
-{
 // number of movements.
 	int NMoves;
 	private int FWorldLength;
@@ -51,47 +49,7 @@ public final class ArtificialMiningWorld
 	{
 		return FShowGrid;
 	}
-/*
-	public void FixPos(final Position p)
-	{
-		if( p.x < 0 ) {
-			p.x += FWorldLength;
-		}
-		if( p.x >= FWorldLength ) {
-			p.x -= FWorldLength;
-		}
-		if( p.y < 0 ) {
-			p.y += FWorldLength;
-		}
-		if( p.y >= FWorldLength ) {
-			p.y -= FWorldLength;
-		}
-	}
 
-	public void MoveAgentR(final int dx, final int dy, final Position p)
-	{
-		p.x += dx;
-		p.y += dy;
-		FixPos(p);
-	}
-
-	public void DefineWorldLength()
-	{
-		NumUnLoad = 0;
-		NumLoad = 0;
-		NMoves = 0;
-	}
-
-	protected void DefineSuperposition(final boolean s)
-	{
-		Superposition = s;
-	}
-
-	protected void DefineLinkedBorder(final boolean LB)
-	{
-		FLinkedBorder = LB;
-	}
-*/
 	Position BASE()
 	{
 		return AgentP[ URobMin2.csBaseIdx ];
@@ -252,24 +210,6 @@ public final class ArtificialMiningWorld
 			NumUnLoad++;
 			p.Charge--;
 			a.Charge++;
-		}
-	}
-
-	public void RandomPos(final Position p)
-	{
-		p.x = UFRob1.csWorldMin + MM.random(FWorldLength);
-		p.y = UFRob1.csWorldMin + MM.random(FWorldLength);
-	}
-/*
-	private void RandomMove(final int P)
-	{
-		move(AgentP[P], (byte)MM.random(4));	// left, right, up, down
-	}
-*/
-	public void RandomPos()
-	{
-		for( final Position p : AgentP ) {
-			RandomPos(p);
 		}
 	}
 
