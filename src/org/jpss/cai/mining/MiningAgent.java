@@ -42,11 +42,7 @@ class MiningAgent extends CompositePlan
 			// This function predicts the next state and returns true
 			// if the ACTION is in the PATH of the target state (load/unload).
 			@Override
-			public boolean PredictNextState(
-				// input/output
-				final /*var*/ PState pCurrentState,
-				// input
-				final byte Action)
+			public boolean PredictNextState(final /*io*/ PState pCurrentState, final byte Action)
 			{
 				LastTargetPlan = null;
 				if( EasyPredictNextState(/*var*/ pCurrentState, Action) ) {
@@ -64,11 +60,7 @@ class MiningAgent extends CompositePlan
 			// This function predicts the next state and returns true
 			// if the ACTION brings to the "target" state in just one step.
 			@Override
-			public boolean EasyPredictNextState(
-				// input/output
-				final /*var*/ PState pCurrentState,
-				// input
-				final byte Action)
+			public boolean EasyPredictNextState(final /*io*/ PState pCurrentState, final byte Action)
 			{
 				final State localState = pCurrentState.states.cloneAndSetAction((byte)(Action + 1));
 				LearnAndPredict.Predict(localState, localState, /*var*/pCurrentState);
@@ -217,7 +209,7 @@ class MiningAgent extends CompositePlan
 				if( !LastPlanned ) {
 					AddPlan(pCurrentState, false);
 				}
-				if( LastPlannedStates.fastIndexOf(pCurrentState) != -1 ) { // Is this a  cycle?
+				if( LastPlannedStates.exists(pCurrentState) ) { // Is this a  cycle?
 					InvalidateLastUsedPlan(); // delete cycling plan.
 				}
 				resultAction = localAction;

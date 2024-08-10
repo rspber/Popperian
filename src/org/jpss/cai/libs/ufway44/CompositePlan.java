@@ -108,7 +108,7 @@ public abstract class CompositePlan
 			final ActionStateList yPlan = yP.FPlan;
 			if( xPlan.numStates() + yPlan.numStates() < Ufway44.MaxStates ) {
 				for( int i = 0; i < yPlan.numStates(); i++ ) {
-					xPlan.include(yPlan.state(i), yPlan.action(i));
+					xPlan.append(yPlan.state(i), yPlan.action(i));
 				}
 			}
 			xPlan.removeAllCicles();

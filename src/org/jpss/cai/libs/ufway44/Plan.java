@@ -71,7 +71,7 @@ public abstract class Plan
 				final byte Action = (byte)MM.random(FNumberActions);
 				tmp3.states = tmp.states;
 				PredictNextState(/*var*/ tmp3, Action);
-				if( FPlan.fastIndexOf(tmp3.states) == -1 ) {
+				if( !FPlan.exists(tmp3.states) ) {
 					return Action;
 				}
 			}
@@ -111,7 +111,7 @@ public abstract class Plan
 			byte Action = ChooseActionIn1Step(/*var*/tmp2);
 			if( Action != -1 ) {
 				//Has found satisfaction in 1 step?
-				FPlan.include(tmp2.states, Action);
+				FPlan.append(tmp2.states, Action);
 				return Cicles;
 			} else {
 				//has not found satisfaction in 1 step.
@@ -121,7 +121,7 @@ public abstract class Plan
 					Action = ChooseRandomAction(tmp2);
 				}
 				final boolean PlanFound = PredictNextState(/*var*/ tmp2, Action);
-				FPlan.include(tmp2.states, Action);
+				FPlan.append(tmp2.states, Action);
 				if( PlanFound ) {
 					return Cicles;
 				}
@@ -136,7 +136,7 @@ public abstract class Plan
 	{
 		Found = false;
 		FPlan.clear();
-		FPlan.include(StartState, (byte)0);
+		FPlan.append(StartState, (byte)0);
 		final double r = BuildPlan(StartState, deep);
 		if( r != 0 ) {
 			Found = true;
@@ -180,7 +180,7 @@ public abstract class Plan
 			//produces a new state based on a random action.
 			EasyPredictNextState(/*var*/ tmp1, Action);
 
-			V2.include(tmp1.states, Action);
+			V2.append(tmp1.states, Action);
 			if( tmp1.states.eq(FinishState) ) {
 				return Cicles;
 			}
@@ -198,23 +198,23 @@ public abstract class Plan
 		int FinishPos = MM.random(FPlan.numStates() - ST) + ST;
 		if( FinishPos < StartPos ) {
 			// LExchange
-			int AUX = StartPos;
+			final int tmp = StartPos;
 			StartPos = FinishPos;
-			FinishPos = AUX;
+			FinishPos = tmp;
 		}
 		if( Math.abs(StartPos - FinishPos) < 2 ) {
 			return 0;
 		}
 		V2.clear();
 		final State StartState = FPlan.state(StartPos);
-		V2.include(StartState, FPlan.action(StartPos));
+		V2.append(StartState, FPlan.action(StartPos));
 		final State FinishState = FPlan.state(FinishPos);
 		// creates a new subway/subpath
 		TryToBuildSubPath(FinishState, StartState, deep);
 		V2.removeAllCicles();
 		// for each state in the new sub path
 		for( int v2pos = 1; v2pos < V2.numStates(); v2pos++ ) {
-			if( (StartPos + v2pos < FPlan.numStates() - 1) && (FPlan.fastIndexOf(V2.state(v2pos)) != -1) ) {
+			if( (StartPos + v2pos < FPlan.numStates() - 1) && FPlan.exists(V2.state(v2pos)) ) {
 				// is it a state in the existing plan?
 				// for each of the following states in the current plan FPlan.
 				for( int FPlanPos = StartPos + v2pos; FPlanPos < FPlan.numStates(); FPlanPos++ ) {

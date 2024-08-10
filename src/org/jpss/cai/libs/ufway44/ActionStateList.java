@@ -103,7 +103,7 @@ public class ActionStateList
 	}
 
 	// includes a state and action in the end of the plan.
-	public void include(final State ST, final byte Action)
+	public void append(final State ST, final byte Action)
 	{
 		keyCache.include(ST);
 		if( states.size() < Ufway44.MaxStates ) {
@@ -123,12 +123,17 @@ public class ActionStateList
 		if( states.size() == Ufway44.MaxStates ) {
 			removeFirst();
 		}
-		include(ST, Action );
+		append(ST, Action );
 	}
 
 	// This function returns -1 when the parameter doesn't exist; else returns position ...
 	// The same as Exists but faster. Depends on valid FKeyCache.
 	// FastExists
+	public boolean exists(final State ST)
+	{
+		return fastIndexOf(ST) >= 0;
+	}
+
 	public int fastIndexOf(final State ST)
 	{
 		if( keyCache.test(ST) ) {
