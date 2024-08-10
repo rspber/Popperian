@@ -44,10 +44,18 @@ public abstract class CompositePlan
 		Plan WorstPlan = Plans[0];
 		double worst = -1000000;
 		for( final Plan P : Plans ) {
+
 			// evaluates a  plan.
 			// the bigger the number, the worse is.
-			final double next = !P.Found ? 100000 : 1 - P.FPlan.numStates();
-			if( (next > worst) || ((next == worst) && (MM.random(2) == 0)) ) {
+			final double next;
+			if( !P.Found ) {
+				next = 100000;
+			}
+			else {
+				next = 1 - P.FPlan.numStates();
+			}
+
+			if( (next > worst) || ((next == worst) && MM.random(2) == 0) ) {
 				worst = next;
 				WorstPlan = P;
 			}
@@ -56,11 +64,11 @@ public abstract class CompositePlan
 	}
 
 	// ToAct
-	public boolean ChooseBestPlan(final State ST, final /*var*/ ToAct result )
+	public boolean ChooseBestPlan(final State CurrentState, final /*var*/ ToAct result)
 	{
 		result.LastAct = false;
 
-		Plan BestPlan = ChooseBestPlanBasedOnNextStep(ST, result );
+		Plan BestPlan = ChooseBestPlanBasedOnNextStep(CurrentState, result );
 
 		for( int i = 0; i < Plans.length; i++ ) {
 //			final int AcI = BP.GetNextIndex(ST);
@@ -78,22 +86,32 @@ public abstract class CompositePlan
 		return false;
 	}
 
-	private Plan ChooseBestPlanBasedOnNextStep(final State ST, final /*var*/ ToAct result )
+	// choose the best plan to be used using the evaluation based on the next step of each plan.
+	private Plan ChooseBestPlanBasedOnNextStep(final State CurrentState, final /*var*/ ToAct result)
 	{
-		// choose the best plan to be used using the evaluation based on the next step of each plan.
 		Plan BestPlan = Plans[0];
-		{
-			double best = 1000000;
-			for( int i = 0; i < Plans.length; ++i ) {
-				final Plan P = Plans[i]; 
-				// evaluates how good a plan is based on the next step of the plan.
-				final int AcI = P.GetNextStepIndex(ST);
-				result.index[i] = AcI;
-				final double curr = AcI == -1 ? 100000 : P.FPlan.numStates() - AcI;
-				if( (curr < best) || ((curr == best) && (MM.random(2) == 0)) ) {
-					best = curr;
-					BestPlan = P;
-				}
+		double best = 1000000;	// best plan evaluation
+		for( int i = 0; i < Plans.length; ++i ) {
+
+			final Plan P = Plans[i];
+
+			// evaluates how good a plan is based on the next step of the plan.
+			// quanto maior, pior
+			final int AcI = P.GetNextStepIndex(CurrentState);
+
+			result.index[i] = AcI;
+
+			final double curr;	// curr plan evaluation
+			if( AcI == -1 ) {
+				curr = 100000;
+			}
+			else {
+				curr = P.FPlan.numStates() - AcI;
+			}
+
+			if( (curr < best) || ((curr == best) && MM.random(2) == 0) ) {
+				best = curr;
+				BestPlan = P;
 			}
 		}
 		return BestPlan;
@@ -148,5 +166,37 @@ public abstract class CompositePlan
 		MultipleOptimize(ActState, deep, 1);
 		return 0;
 	}
+/*
+	// chooses the worst plan and replaces by a newly built plan.
+	public boolean MultipleRun(final byte[] InitState, final int deep, final int Number)
+	{
+		int i = ChooseWorst();
+		LastPlanedPlan = i;
+		return Plans[i].MultipleRun(InitState, deep, Number);
+	}
+
+	// evaluates a  plan.
+	// the bigger the number, the worse is.
+	private double EvalPlan(final int i)
+	{
+		if( !Plans[i].Found ) {
+			return 100000;
+		} else {
+			return 1 - Plans[i].FPlan.numStates();
+		}
+	}
+
+	// evaluates how good a plan is based on the next step of the plan.
+	// quanto maior, pior
+	private double EvalPlanBasedOnNextStep(final byte[] CurrentState, final int PlanIndex)
+	{
+		final int AcI = Plans[PlanIndex].GetNextStepIndex(CurrentState);
+		if( AcI == -1 ) {
+			return 100000;
+		} else {
+			return Plans[PlanIndex].FPlan.numStates() - AcI;
+		}
+	}
+*/
 
 }
