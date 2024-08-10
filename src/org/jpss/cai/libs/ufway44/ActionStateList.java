@@ -17,8 +17,6 @@ public class ActionStateList
 	private final TABHash keyCache; // 1 in a given position might mean that the entry is there.
 	private final List<State> states;	// list of stored states.
 	private final byte[] actions;	// list of action on state.
-
-//	private final int FStateLength;
 	
 //	TVisitedStatesCopy
 	public void receivePlan(final ActionStateList P)
@@ -67,12 +65,11 @@ public class ActionStateList
 		states.set(i, st.clone());
 	}
 
-	public ActionStateList(final int StateLength)
+	public ActionStateList()
 	{
 		keyCache = new TABHash();
 		actions = new byte[Ufway44.MaxStates];
 		states = new ArrayList<>();
-//		FStateLength = StateLength;
 	}
 
 	// Clear all entries

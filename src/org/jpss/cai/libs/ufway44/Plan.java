@@ -24,12 +24,12 @@ public abstract class Plan
 
 	public final int id;
 
-	public Plan(final int id, final int PNumberActions, final int PStateLength)
+	public Plan(final int id, final int PNumberActions)
 	{
 		this.id = id;
 		this.FNumberActions = PNumberActions;
-		this.FPlan = new ActionStateList(PStateLength);
-		this.V2 = new ActionStateList(PStateLength);
+		this.FPlan = new ActionStateList();
+		this.V2 = new ActionStateList();
 	}
 
 	// if state ST is a state in the plan, it returns the index of the next step in the plan.

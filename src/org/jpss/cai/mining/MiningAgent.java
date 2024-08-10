@@ -35,7 +35,7 @@ class MiningAgent extends CompositePlan
 
 	public Plan PlanPredict(final int id)
 	{
-		return new Plan(id, URobMin2.csNumberActions, UFRob1.csStateByteLength) {
+		return new Plan(id, URobMin2.csNumberActions) {
 
 			private final ToAct clixo = new ToAct();
 
@@ -102,8 +102,8 @@ class MiningAgent extends CompositePlan
 		PlanningErrorCnt = 0;
 		RandomActionsCnt = 0;
 		LastPlanned = false;
-		LastStates = new ActionStateList(UFRob1.csStateByteLength);
-		LastPlannedStates = new ActionStateList(UFRob1.csStateByteLength);
+		LastStates = new ActionStateList();
+		LastPlannedStates = new ActionStateList();
 	}
 
 
