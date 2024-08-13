@@ -104,18 +104,6 @@ public class State {
 		return setState(0, v);
 	}
 
-	public State cloneAndSetState(final int i, final byte v)
-	{
-		final State st = new State(b_);
-		st.b_[i] = v;
-		return st;
-	}
-
-	public State cloneAndSetAction(final byte v)
-	{
-		return cloneAndSetState(0, v);
-	}
-
 	public boolean eq(final State st)
 	{
 		return st.TABHashKey() == TABHashKey() && Arrays.equals(st.b_, b_);

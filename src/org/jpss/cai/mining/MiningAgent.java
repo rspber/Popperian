@@ -62,7 +62,7 @@ class MiningAgent extends CompositePlan
 			@Override
 			public boolean EasyPredictNextState(final /*io*/ PState pCurrentState, final byte Action)
 			{
-				final State localState = pCurrentState.states.cloneAndSetAction((byte)(Action + 1));
+				final State localState = pCurrentState.states.setAction((byte)(Action + 1));
 				LearnAndPredict.Predict(localState, localState, /*var*/pCurrentState);
 				return UFRob1.isTargetAction(localState, Action);
 			}
