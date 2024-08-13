@@ -102,8 +102,7 @@ public abstract class Plan
 
 	private double BuildPlan(final State StartState, final int planSize)
 	{
-		State.deref(tmp2.states);
-		tmp2.states = StartState.clone();	// ride states
+		tmp2.states = StartState;	// ride states
 
 		final boolean Prefered = MM.random(2) > 0;
 		final byte PreferedAct = (byte)MM.random(FNumberActions);
@@ -164,8 +163,7 @@ public abstract class Plan
 
 	private double TryToBuildSubPath(final State FinishState, final State StartState, final int NCicles)
 	{
-		State.deref(tmp1.states);
-		tmp1.states = StartState.clone();	// ride states
+		tmp1.states = StartState;	// ride states
 
 		final boolean Prefered = MM.random(2) > 0;
 		final byte PreferedAct = (byte)MM.random(FNumberActions);

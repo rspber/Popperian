@@ -45,13 +45,13 @@ public class Popperian extends MiningAgent {
 
 		localStates = localStates.cloneAndSetAction((byte)(localAction + 1));
 
-		State.deref(predictedStates.states); predictedStates.states = new State();
+		predictedStates.states = new State();
 		LearnAndPredict.Predict(localStates, localStates, predictedStates );
 
 		if( localAction !=  URobMin2.csHold ) {
 			FMiningWorld.move(FMiningWorld.RUNNER(), localAction );
 		}
-		State.deref(PreviousStates); PreviousStates = localStates.cloneAndSetAction((byte)0);
+		PreviousStates = localStates.cloneAndSetAction((byte)0);
 
 		return r;
 	}

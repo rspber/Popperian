@@ -78,7 +78,7 @@ public abstract class CompositePlan
 				result.Action = BestFPlan.action(AcI);
 				result.BestPlan = BestPlan;
 				result.LastAct = (BestFPlan.numStates() - 1 == AcI);
-				State.deref(result.NextState); result.NextState = BestFPlan.state(AcI).clone();
+				result.NextState = BestFPlan.state(AcI);
 				return true;
 			}
 			BestPlan = Plans[ (BestPlan.id + 1) % Plans.length ];

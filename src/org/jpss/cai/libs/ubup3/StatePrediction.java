@@ -270,7 +270,7 @@ public class StatePrediction {
 		final /*var*/ double[] pRelationProbability,
 		final /*var*/ int[] pVictoryIndex) // index of victorious neuron 
 	{
-		State states = pCurrentState.clone();	// LOOK
+		State states = pCurrentState;	// LOOK
 		final RunOperation ABF = new RunOperation(FCS, pActions, pCurrentState, pNextStates.states);
 		for( int i = 0; i < pRelationProbability.length; i++ ) {
 			pRelationProbability[i] = 0;
@@ -285,13 +285,13 @@ public class StatePrediction {
 			if( Probability > pRelationProbability[PredictionPos] && ng.CorrectNeuronPredictionCnt > FCS.MinSampleForPrediction ) {
 				if( ABF.TestTests(ng.TestNeuronLayer ) > 0 ) {
 					final byte NextState = (byte)ABF.getNextState(ng.OperationNeuronLayer, PredictionPos);
-					State.deref(states); states = states.setState(PredictionPos, NextState);
+					states = states.setState(PredictionPos, NextState);
 					pRelationProbability[PredictionPos] = Probability;
 					pVictoryIndex[PredictionPos] = i;
 				}
 			}
 		}
-		State.deref(pNextStates.states); pNextStates.states = states;
+		pNextStates.states = states;
 	}
 
 	// This function is similar to Prediction but doesn't touch "next states" array.

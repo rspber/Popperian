@@ -104,7 +104,7 @@ public class FormPlans extends Group
 					final double X2 = (-UFRob1.csWorldMin + x2 + 0.5) * w;
 					final double Y2 = (-UFRob1.csWorldMin + y2 + 0.5) * h;
 					if( Plan.Found ) {
-						gc.setStroke(p2.charge() == 0 ? Color.BLACK : Color.RED);
+						gc.setStroke(p2.charge() == 0 ? Color.BLUE : Color.GREEN);
 					}
 					else {
 						gc.setStroke(color);

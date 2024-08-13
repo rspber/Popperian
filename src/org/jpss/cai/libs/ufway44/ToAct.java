@@ -12,7 +12,7 @@ public class ToAct {
 
 	public void clear()
 	{
-		State.deref(NextState); NextState = null;
+		NextState = null;
 		BestPlan = null;
 	}
 }

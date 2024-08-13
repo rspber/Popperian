@@ -16,24 +16,6 @@ public class State {
 //	public static final int STATE_6 = 6;	// csWorldCenter + 1 = navel of world
 //	public static final int STATE_7 = 7;
 
-	private int refcnt;
-
-	public State clone()
-	{
-		++refcnt;
-		return this;
-	}
-
-	public void deref()
-	{
-		if( refcnt > 0 ) {
-			refcnt--;
-		}
-		else {
-//			throw new RuntimeException("ref less then 0 over");
-		}
-	}
-
 	private final byte[] b_;
 
 	private int TABHashKey_;
@@ -112,17 +94,9 @@ public class State {
 
 	public State setState(final int i, final byte v)
 	{
-		if( refcnt == 0 ) {
-			b_[i] = v;
-			TABHashKey_ = 0;
-			TCacheMemKey_ = 0;
-			return this;
-		}
-		else {
-			final State st = new State(b_);
-			st.b_[i] = v;
-			return st;
-		}
+		final State st = new State(b_);
+		st.b_[i] = v;
+		return st;
 	}
 
 	public State setAction(final byte v)
@@ -164,14 +138,4 @@ public class State {
 		return UAB.ABRandomGetNext1(st.b_, b_);
 	}
 
-	public static void deref(final State st)
-	{
-		if( st != null ) {
-			if( st.refcnt > 0 ) {
-				st.refcnt--;
-			}
-			else {
-			}
-		}
-	}
 }

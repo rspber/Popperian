@@ -81,8 +81,8 @@ public class CacheMem
 //		private void PInclude(final int POS)
 //		{
 			FFilledStatePosition[PIncludePOS] = true;
-			State.deref(FKeyStates[PIncludePOS]); FKeyStates[PIncludePOS] = ST.clone();
-			State.deref(DataA[PIncludePOS]); DataA[PIncludePOS] = DTA.clone();
+			FKeyStates[PIncludePOS] = ST;
+			DataA[PIncludePOS] = DTA;
 //		}
 	}
 

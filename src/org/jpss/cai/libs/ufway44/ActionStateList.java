@@ -28,9 +28,6 @@ public class ActionStateList
 
 		System.arraycopy(P.actions, 0, actions, 0, P.states.size());
 
-		for( final State state : states ) {
-			state.deref();
-		}
 		states.clear();
 		states.addAll(P.states);
 		P.states.clear();
@@ -61,8 +58,7 @@ public class ActionStateList
 
 	public void setState(final int i, final State st)
 	{
-		states.get(i).deref();
-		states.set(i, st.clone());
+		states.set(i, st);
 	}
 
 	public ActionStateList()
@@ -75,9 +71,6 @@ public class ActionStateList
 	// Clear all entries
 	void clearStates__()
 	{
-		for( final State state : states ) {
-			state.deref();
-		}
 		states.clear();
 	}
 
@@ -94,7 +87,6 @@ public class ActionStateList
 		keyCache.clear();
 		if( states.size() > 0 ) {
 			final State st = states.remove(0);
-			st.deref();
 			System.arraycopy(actions, 1, actions, 0, states.size()-1);
 			for( final State state : states ) {
 				keyCache.include(state);
@@ -108,7 +100,7 @@ public class ActionStateList
 		keyCache.include(ST);
 		if( states.size() < Ufway44.MaxStates ) {
 			actions[states.size()] = Action;
-			states.add(ST.clone());
+			states.add(ST);
 		} else {
 			throw new RuntimeException("TVisitedStates: Limit states exceesed: " + states.size() + " ");
 		}
@@ -173,7 +165,6 @@ public class ActionStateList
 			int difer = FinishPos - InitPos;
 			while( --difer >= 0 ) {
 				final State st = states.remove(InitPos);
-				st.deref();
 			}
 			reDoHash();
 		}

@@ -52,14 +52,14 @@ public class EasyLearnAndPredict extends Classifier {
 	// Returned value "predicted states" contains the neural network prediction.
 	public void Predict(final State actions, final State currentState, final /*var*/PState predictedState)
 	{
-		State.deref(fActions); fActions = actions.clone();
-		State.deref(fCurrentState); fCurrentState = currentState.clone();
+		fActions = actions;
+		fCurrentState = currentState;
 		fCached = false;
 		if( fUseCache ) {
 			final State state = fCache.Read(fActions);
 			if( state != null ) {
 				if( fActions.eq(fCurrentState) ) {
-					State.deref(predictedState.states); predictedState.states = state.clone();
+					predictedState.states = state;
 					fCached = true;
 				}
 			}
@@ -67,7 +67,7 @@ public class EasyLearnAndPredict extends Classifier {
 		if( !fCached ) {
 			Prediction(fActions, fCurrentState, predictedState, /*var*/fRelationProbability, /*var*/fVictoryIndex);
 		}
-		State.deref(fPredictedState); fPredictedState = predictedState.states.clone();
+		fPredictedState = predictedState.states;
 	}
 
 
